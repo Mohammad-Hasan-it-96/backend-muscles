@@ -1,0 +1,40 @@
+<?php
+
+use App\Http\Controllers\API\DashboardController;
+use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\ProfileController;
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', static function () {
+    return view('auth.login');
+});
+Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
+    Route::get('login', [AuthController::class, 'view_login'])->name('view_login');
+    Route::post('login', [AuthController::class, 'login'])->name('login');
+    Route::get('register', [AuthController::class, 'view_register'])->name('view_register');
+    Route::post('register', [AuthController::class, 'register'])->name('register');
+    Route::post('logout', [AuthController::class, 'view_logout'])->name('logout')->middleware('auth:api');
+    Route::post('forgot-password', [AuthController::class, 'sendResetLinkEmail']);
+    Route::post('reset-password', [AuthController::class, 'resetPassword']);
+    Route::get('forgot-password', [AuthController::class, 'forgot_password'])->name('forgot-password');
+    Route::get('/reset-password/{token}', [AuthController::class, 'view_resetPassword'])->name('password.reset');
+});
+Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::group(['prefix' => 'products', 'as' => 'products.'], function () {
+        Route::get('', [ProductController::class, 'index'])->name('products');
+    });
+    Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
+        Route::get('edit', [ProfileController::class, 'edit'])->name('edit');
+        Route::post('update', [ProfileController::class, 'update'])->name('update');
+        Route::post('delete', [ProfileController::class, 'destroy'])->name('delete');
+    });
+    Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
+        Route::get('', [ProfileController::class, 'index'])->name('index');
+        Route::get('edit', [ProfileController::class, 'edit'])->name('edit');
+        Route::post('update', [ProfileController::class, 'update'])->name('update');
+        Route::post('delete', [ProfileController::class, 'destroy'])->name('delete');
+    });
+});
+
