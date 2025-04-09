@@ -83,7 +83,10 @@
                     <h5>Sales Overview</h5>
                 </div>
                 <div class="card-body">
+                    // Change
                     <canvas id="salesChart" height="300"></canvas>
+                    // To
+                    <canvas id="dashboardSalesChart" height="300"></canvas>
                 </div>
             </div>
         </div>

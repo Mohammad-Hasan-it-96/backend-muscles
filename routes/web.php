@@ -14,9 +14,11 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
     Route::post('login', [AuthController::class, 'login'])->name('login');
     Route::get('register', [AuthController::class, 'view_register'])->name('view_register');
     Route::post('register', [AuthController::class, 'register'])->name('register');
-    Route::post('logout', [AuthController::class, 'view_logout'])->name('logout')->middleware('auth:api');
-    Route::post('forgot-password', [AuthController::class, 'sendResetLinkEmail']);
-    Route::post('reset-password', [AuthController::class, 'resetPassword']);
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+    Route::post('forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('forgot-password.submit');
+    // Add these to your auth group
+    Route::post('reset-password', [AuthController::class, 'resetPassword'])
+        ->name('password.update');
     Route::get('forgot-password', [AuthController::class, 'forgot_password'])->name('forgot-password');
     Route::get('/reset-password/{token}', [AuthController::class, 'view_resetPassword'])->name('password.reset');
 });
