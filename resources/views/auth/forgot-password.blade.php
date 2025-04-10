@@ -14,7 +14,7 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="/forgot-password">
+                        <form method="POST" action="{{route('auth.forgot-password.submit')}}">
                             @csrf
 
                             <div class="row mb-3">

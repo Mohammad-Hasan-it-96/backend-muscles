@@ -11,4 +11,12 @@ class DashboardController extends BaseController
     {
         return view('dashboard');
     }
+
+    public function welcome(Request $request)
+    {
+        if(auth()->user())
+            return view('dashboard');
+        else
+            return view('auth.login');
+    }
 }

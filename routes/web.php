@@ -6,9 +6,7 @@ use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', static function () {
-    return view('auth.login');
-});
+Route::get('/', [DashboardController::class, 'welcome']);
 Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
     Route::get('login', [AuthController::class, 'view_login'])->name('view_login');
     Route::post('login', [AuthController::class, 'login'])->name('login');
@@ -25,7 +23,12 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
 Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::group(['prefix' => 'products', 'as' => 'products.'], function () {
-        Route::get('', [ProductController::class, 'index'])->name('products');
+        Route::get('', [ProductController::class, 'index'])->name('index');
+        Route::get('create', [ProductController::class, 'create'])->name('create');
+        Route::post('store', [ProductController::class, 'store'])->name('store');
+        Route::get('edit/{id}', [ProductController::class, 'edit'])->name('edit');
+        Route::put('update/{id}', [ProductController::class, 'update'])->name('update');
+        Route::delete('delete/{id}', [ProductController::class, 'destroy'])->name('delete');
     });
     Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
         Route::get('edit', [ProfileController::class, 'edit'])->name('edit');
@@ -39,4 +42,3 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::post('delete', [ProfileController::class, 'destroy'])->name('delete');
     });
 });
-

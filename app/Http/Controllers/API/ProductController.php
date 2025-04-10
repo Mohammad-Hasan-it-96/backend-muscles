@@ -2,49 +2,56 @@
 
 namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
-use App\Models\Product;
-use Validator;
 use App\Http\Resources\ProductResource;
+use App\Models\Product;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Validator;
 
 class ProductController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(): JsonResponse
+    public function index()
     {
         $products = Product::all();
+        return view('admin.products.index', compact('products'));
+    }
 
-        return $this->sendResponse(ProductResource::collection($products), 'Products retrieved successfully.');
+    public function create()
+    {
+        return view('admin.products.create');
+    }
+
+    public function edit($id)
+    {
+        $product = Product::find($id);
+        return view('admin.products.edit', compact('product'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request): JsonResponse
+    public function store(Request $request)
     {
         $input = $request->all();
 
         $validator = Validator::make($input, [
-            'name' => 'required',
-            'detail' => 'required'
+            'name' => 'required|string',
+            'details' => 'nullable|string',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer',
         ]);
 
-        if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $product = Product::create($input);
-
-        return $this->sendResponse(new ProductResource($product), 'Product created successfully.');
+        Product::create($input);
+        Toastr::success('Product has been added successfully.');
+        return redirect()->route('admin.products.index');
     }
 
     /**
@@ -71,24 +78,25 @@ class ProductController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product): JsonResponse
+    public function update(Request $request, $id)
     {
+        $product = Product::findOrFail($id);
         $input = $request->all();
 
         $validator = Validator::make($input, [
-            'name' => 'required',
-            'detail' => 'required'
+            'name' => 'required|string',
+            'details' => 'nullable|string',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer',
         ]);
 
-        if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $product->name = $input['name'];
-        $product->detail = $input['detail'];
-        $product->save();
-
-        return $this->sendResponse(new ProductResource($product), 'Product updated successfully.');
+        $product->update($input);
+        Toastr::success('Product updated successfully.');
+        return redirect()->route('admin.products.index');
     }
 
     /**
@@ -97,10 +105,12 @@ class ProductController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product): JsonResponse
+    public function destroy($id)
     {
+        $product = Product::findOrFail($id);
         $product->delete();
 
-        return $this->sendResponse([], 'Product deleted successfully.');
+        Toastr::success('Product deleted successfully.');
+        return redirect()->route('admin.products.index');
     }
 }

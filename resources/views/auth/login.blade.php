@@ -66,6 +66,12 @@
                             </div>
                         </form>
                     </div>
+                    <div class="card-footer">
+                        <label>You don't have an account?!</label>
+                        <a href="{{ route('auth.view_register') }}" class="btn btn-success">
+                            Create new Account
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
