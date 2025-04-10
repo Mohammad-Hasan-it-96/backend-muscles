@@ -3,7 +3,9 @@
 use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\ProfileController;
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\AuthController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'welcome']);
@@ -36,9 +38,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::post('delete', [ProfileController::class, 'destroy'])->name('delete');
     });
     Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
-        Route::get('', [ProfileController::class, 'index'])->name('index');
-        Route::get('edit', [ProfileController::class, 'edit'])->name('edit');
-        Route::post('update', [ProfileController::class, 'update'])->name('update');
-        Route::post('delete', [ProfileController::class, 'destroy'])->name('delete');
+        Route::get('', [UserController::class, 'index'])->name('index');
+        Route::get('edit/{id}', [UserController::class, 'edit'])->name('edit');
+        Route::post('update/{id}', [UserController::class, 'update'])->name('update');
+        Route::post('delete/{id}', [UserController::class, 'destroy'])->name('delete');
     });
 });
