@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Register')
+@section('title', __('app.register'))
 
 @section('content')
 <div class="container py-5">
@@ -10,8 +10,8 @@
                 <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 70px; height: 70px; background-color: var(--primary); color: white;">
                     <i class="bi bi-person-plus fs-1"></i>
                 </div>
-                <h2 class="fw-bold">Create Account</h2>
-                <p class="text-muted">Join MuscleHub to get started</p>
+                <h2 class="fw-bold">{{ __('Create Account') }}</h2>
+                <p class="text-muted">{{ __('Join MuscleHub to get started') }}</p>
             </div>
             
             <div class="card border-0 shadow-lg">
@@ -20,33 +20,33 @@
                         @csrf
 
                         <div class="mb-4">
-                            <label for="name" class="form-label">Full Name</label>
+                            <label for="name" class="form-label">{{ __('app.full_name') }}</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-transparent"><i class="bi bi-person"></i></span>
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" 
                                        name="name" value="{{ old('name') }}" required autocomplete="name" autofocus 
                                        placeholder="John Doe">
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
-                            @error('name')
-                            <div class="invalid-feedback d-block mt-1">
-                                {{ $message }}
-                            </div>
-                            @enderror
                         </div>
 
                         <div class="mb-4">
-                            <label for="email" class="form-label">Email Address</label>
+                            <label for="email" class="form-label">{{ __('app.email_address') }}</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-transparent"><i class="bi bi-envelope"></i></span>
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" 
                                        name="email" value="{{ old('email') }}" required autocomplete="email" 
-                                       placeholder="your@email.com">
+                                       placeholder="john@example.com">
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
-                            @error('email')
-                            <div class="invalid-feedback d-block mt-1">
-                                {{ $message }}
-                            </div>
-                            @enderror
                         </div>
 
                         <div class="mb-4">
@@ -81,9 +81,9 @@
                         </div>
                         
                         <div class="text-center">
-                            <p class="mb-0">Already have an account? 
+                            <p class="mb-0">{{ __('app.already_have_account') }} 
                                 <a href="{{ route('auth.view_login') }}" class="text-decoration-none fw-medium">
-                                    Sign in
+                                    {{ __('app.login') }}
                                 </a>
                             </p>
                         </div>

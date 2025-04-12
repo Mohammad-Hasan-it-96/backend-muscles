@@ -5,7 +5,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold">Dashboard</h2>
+        <h2 class="fw-bold">{{__('Dashboard')}}</h2>
         <div class="d-flex gap-2">
             <button class="btn btn-outline-primary">
                 <i class="bi bi-download me-2"></i>Export
@@ -37,7 +37,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-6 col-lg-3">
             <div class="card border-0 h-100">
                 <div class="card-body">
@@ -57,7 +57,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-6 col-lg-3">
             <div class="card border-0 h-100">
                 <div class="card-body">
@@ -77,7 +77,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-6 col-lg-3">
             <div class="card border-0 h-100">
                 <div class="card-body">
@@ -121,7 +121,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-lg-4">
             <div class="card border-0">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -205,7 +205,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-lg-4">
             <div class="card border-0">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -350,7 +350,7 @@
     .bg-soft-primary {
         background-color: rgba(79, 70, 229, 0.1) !important;
     }
-    
+
     .text-primary {
         color: var(--primary) !important;
     }

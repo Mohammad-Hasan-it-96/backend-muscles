@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Edit User'))
+@section('title', 'Create New User')
 
 @section('content')
 <div class="container-fluid">
@@ -10,29 +10,29 @@
                 <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary me-3">
                     <i class="bi bi-arrow-left"></i>
                 </a>
-                <h2 class="fw-bold mb-0">{{ __('Edit User') }}</h2>
+                <h2 class="fw-bold mb-0">Create New User</h2>
             </div>
             
             <div class="card border-0 shadow-lg">
                 <div class="card-body p-4">
-                    <form method="POST" action="{{ route('admin.users.update', $user->id) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('admin.users.store') }}" enctype="multipart/form-data">
                         @csrf
                         
                         <div class="row g-4">
+                            <!-- Profile Picture Section -->
                             <div class="col-12 text-center mb-3">
                                 <div class="position-relative d-inline-block">
-                                    @if($user->profile_picture)
-                                        <img src="{{ asset('storage/' . $user->profile_picture) }}" alt="{{ $user->name }}" class="rounded-circle" width="120" height="120">
-                                    @else
-                                        <div class="d-flex align-items-center justify-content-center rounded-circle mx-auto" 
-                                             style="width: 120px; height: 120px; background-color: {{ '#' . substr(md5($user->email), 0, 6) }}; color: white; font-size: 3rem;">
-                                            {{ strtoupper(substr($user->name, 0, 1)) }}
-                                        </div>
-                                    @endif
+                                    <div class="d-flex align-items-center justify-content-center rounded-circle mx-auto" 
+                                         style="width: 120px; height: 120px; background-color: #e9ecef; color: #6c757d; font-size: 3rem;" id="profile-initials">
+                                        <i class="bi bi-person"></i>
+                                    </div>
                                     <label for="profile_picture" class="position-absolute bottom-0 end-0 bg-primary text-white rounded-circle p-2 cursor-pointer" style="cursor: pointer;">
                                         <i class="bi bi-camera"></i>
                                         <input type="file" id="profile_picture" name="profile_picture" class="d-none" accept="image/*">
                                     </label>
+                                </div>
+                                <div class="mt-2">
+                                    <small class="text-muted">Click the camera icon to upload a profile picture</small>
                                 </div>
                                 @error('profile_picture')
                                     <div class="text-danger mt-2">{{ $message }}</div>
@@ -44,7 +44,7 @@
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-person"></i></span>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                                           id="name" name="name" value="{{ old('name', $user->name) }}" required>
+                                           id="name" name="name" value="{{ old('name') }}" required>
                                 </div>
                                 @error('name')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -56,7 +56,7 @@
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-envelope"></i></span>
                                     <input type="email" class="form-control @error('email') is-invalid @enderror" 
-                                           id="email" name="email" value="{{ old('email', $user->email) }}" required>
+                                           id="email" name="email" value="{{ old('email') }}" required>
                                 </div>
                                 @error('email')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -68,9 +68,9 @@
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-shield"></i></span>
                                     <select class="form-select @error('role') is-invalid @enderror" id="role" name="role" required>
-                                        <option value="user" {{ (old('role', $user->role) === 'user') ? 'selected' : '' }}>User</option>
-                                        <option value="moderator" {{ (old('role', $user->role) === 'moderator') ? 'selected' : '' }}>Moderator</option>
-                                        <option value="admin" {{ (old('role', $user->role) === 'admin') ? 'selected' : '' }}>Admin</option>
+                                        <option value="user" {{ old('role') === 'user' ? 'selected' : '' }}>User</option>
+                                        <option value="moderator" {{ old('role') === 'moderator' ? 'selected' : '' }}>Moderator</option>
+                                        <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Admin</option>
                                     </select>
                                 </div>
                                 @error('role')
@@ -79,11 +79,11 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="password" class="form-label">New Password</label>
+                                <label for="password" class="form-label">Password</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-key"></i></span>
                                     <input type="password" class="form-control @error('password') is-invalid @enderror" 
-                                           id="password" name="password" placeholder="Leave blank to keep current password">
+                                           id="password" name="password" required>
                                 </div>
                                 @error('password')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -95,16 +95,16 @@
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-shield-lock"></i></span>
                                     <input type="password" class="form-control" 
-                                           id="password_confirmation" name="password_confirmation">
+                                           id="password_confirmation" name="password_confirmation" required>
                                 </div>
                             </div>
 
                             <div class="col-12 mt-4 d-flex gap-2">
                                 <button type="submit" class="btn btn-primary px-4">
-                                    <i class="bi bi-save me-2"></i>{{ __('app.save') }}
+                                    <i class="bi bi-person-plus me-2"></i>Create User
                                 </button>
                                 <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary px-4">
-                                    <i class="bi bi-x-circle me-2"></i>{{ __('app.cancel') }}
+                                    <i class="bi bi-x-circle me-2"></i>Cancel
                                 </a>
                             </div>
                         </div>
@@ -128,22 +128,24 @@
                     const reader = new FileReader();
                     
                     reader.onload = function(e) {
-                        const parent = profilePictureInput.closest('.position-relative');
-                        const existingImage = parent.querySelector('img');
-                        const existingInitials = parent.querySelector('div.rounded-circle');
+                        const profileInitials = document.getElementById('profile-initials');
                         
-                        if (existingImage) {
-                            existingImage.src = e.target.result;
-                        } else if (existingInitials) {
+                        if (profileInitials) {
                             // Replace initials with image
-                            existingInitials.remove();
+                            const parent = profileInitials.parentNode;
+                            profileInitials.remove();
+                            
                             const newImage = document.createElement('img');
                             newImage.src = e.target.result;
-                            newImage.alt = 'Profile Picture';
-                            newImage.className = 'rounded-circle';
+                            newImage.alt = "Profile Preview";
+                            newImage.id = "profile-preview";
+                            newImage.className = "rounded-circle";
                             newImage.width = 120;
                             newImage.height = 120;
-                            parent.prepend(newImage);
+                            newImage.style.objectFit = "cover";
+                            
+                            // Insert before the label (which is the second child)
+                            parent.insertBefore(newImage, parent.children[0]);
                         }
                     }
                     

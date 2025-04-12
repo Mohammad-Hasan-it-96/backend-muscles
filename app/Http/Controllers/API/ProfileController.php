@@ -7,6 +7,7 @@ use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends BaseController
 {
@@ -19,21 +20,32 @@ class ProfileController extends BaseController
     {
         $user = Auth::user();
 
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'password' => 'nullable|min:8|confirmed'
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'profile_picture' => ['nullable', 'image', 'max:2048'],  // Max 2MB
         ]);
 
-        $user->name = $validated['name'];
+        $user->name = $request->name;
 
         if ($request->filled('password')) {
-            $user->password = Hash::make($validated['password']);
+            $user->password = Hash::make($request->password);
+        }
+
+        if ($request->hasFile('profile_picture')) {
+            // Delete old profile picture if exists
+            if ($user->profile_picture) {
+                Storage::disk('public')->delete($user->profile_picture);
+            }
+
+            // Store new profile picture
+            $path = $request->file('profile_picture')->store('profile-pictures', 'public');
+            $user->profile_picture = $path;
         }
 
         $user->save();
 
-        Toastr::success('Profile updated successfully!');
-        return redirect()->route('admin.profile.edit');
+        return redirect()->route('admin.profile.edit')->with('success', 'Profile updated successfully');
     }
 
     public function destroy(Request $request)

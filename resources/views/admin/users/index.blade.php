@@ -9,7 +9,7 @@
             <h2 class="fw-bold mb-0">Users Management</h2>
             <p class="text-muted">Manage your system users</p>
         </div>
-        <a href="{{ route('auth.view_register') }}" class="btn btn-primary">
+        <a href="{{ route('admin.users.create') }}" class="btn btn-primary">
             <i class="bi bi-person-plus me-2"></i>Add New User
         </a>
     </div>
@@ -35,16 +35,16 @@
     @endif
 
     <div class="card border-0 shadow-lg">
-        <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+        <div class="card-header d-flex justify-content-between align-items-center py-3">
             <h5 class="mb-0">All Users</h5>
             <div class="d-flex gap-2">
                 <div class="input-group">
-                    <span class="input-group-text bg-light border-end-0">
+                    <span class="input-group-text border-end-0" style="background-color: var(--input-bg);">
                         <i class="bi bi-search"></i>
                     </span>
                     <input type="text" class="form-control border-start-0 ps-0" id="searchUsers" placeholder="Search users...">
                 </div>
-                <button class="btn btn-light" title="Refresh">
+                <button class="btn" style="background-color: var(--input-bg);" title="Refresh">
                     <i class="bi bi-arrow-clockwise"></i>
                 </button>
             </div>
@@ -61,6 +61,7 @@
                             </th>
                             <th>User</th>
                             <th>Email</th>
+                            <th>Role</th>
                             <th>Status</th>
                             <th>Registered On</th>
                             <th class="text-end pe-4">Actions</th>
@@ -76,10 +77,14 @@
                             </td>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <div class="d-flex align-items-center justify-content-center rounded-circle me-3" 
-                                         style="width: 40px; height: 40px; background-color: {{ '#' . substr(md5($user->email), 0, 6) }}; color: white;">
-                                        {{ strtoupper(substr($user->name, 0, 1)) }}
-                                    </div>
+                                    @if($user->profile_picture)
+                                        <img src="{{ asset('storage/' . $user->profile_picture) }}" alt="{{ $user->name }}" class="rounded-circle me-3" width="40" height="40">
+                                    @else
+                                        <div class="d-flex align-items-center justify-content-center rounded-circle me-3" 
+                                             style="width: 40px; height: 40px; background-color: {{ '#' . substr(md5($user->email), 0, 6) }}; color: white;">
+                                            {{ strtoupper(substr($user->name, 0, 1)) }}
+                                        </div>
+                                    @endif
                                     <div>
                                         <h6 class="mb-0">{{ $user->name }}</h6>
                                         @if($user->id === auth()->id())
@@ -89,6 +94,15 @@
                                 </div>
                             </td>
                             <td>{{ $user->email }}</td>
+                            <td>
+                                @if($user->role === 'admin')
+                                    <span class="badge bg-danger">Admin</span>
+                                @elseif($user->role === 'moderator')
+                                    <span class="badge bg-warning text-dark">Moderator</span>
+                                @else
+                                    <span class="badge bg-info">User</span>
+                                @endif
+                            </td>
                             <td>
                                 <span class="badge bg-success">Active</span>
                             </td>
@@ -115,7 +129,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="6" class="text-center py-4">
+                            <td colspan="7" class="text-center py-4">
                                 <div class="d-flex flex-column align-items-center py-5">
                                     <i class="bi bi-people text-muted" style="font-size: 3rem;"></i>
                                     <h5 class="mt-3">No users found</h5>
@@ -128,7 +142,7 @@
                 </table>
             </div>
         </div>
-        <div class="card-footer bg-white border-top d-flex justify-content-between align-items-center py-3">
+        <div class="card-footer border-top d-flex justify-content-between align-items-center py-3">
             <div>
                 <span class="text-muted">Showing {{ $users->firstItem() ?? 0 }} to {{ $users->lastItem() ?? 0 }} of {{ $users->total() }} users</span>
             </div>
@@ -191,8 +205,9 @@
                 tableRows.forEach(row => {
                     const userName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
                     const userEmail = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                    const userRole = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
                     
-                    if (userName.includes(searchTerm) || userEmail.includes(searchTerm)) {
+                    if (userName.includes(searchTerm) || userEmail.includes(searchTerm) || userRole.includes(searchTerm)) {
                         row.style.display = '';
                     } else {
                         row.style.display = 'none';
@@ -213,7 +228,6 @@
                 const userName = this.getAttribute('data-name');
                 
                 userNameSpan.textContent = userName;
-                // Fix the route generation by using the correct URL format
                 deleteUserForm.action = "{{ url('admin/users/delete') }}/" + userId;
                 
                 deleteUserModal.show();

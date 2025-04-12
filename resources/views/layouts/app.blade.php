@@ -1,16 +1,22 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ App::isLocale('ar') || (session('site_direction') == 'rtl') ? 'rtl' : 'ltr' }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name', 'Laravel') }} - @yield('title')</title>
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
+
+    <!-- RTL Bootstrap CSS (conditionally loaded) -->
+    @if(App::isLocale('ar') || (session('site_direction') == 'rtl'))
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    @endif
+
     <style>
         .sidebar {
             width: 250px;
@@ -22,29 +28,57 @@
             padding: 20px;
             box-shadow: 2px 0 5px rgba(0,0,0,.1);
         }
-        
+
         .main-content {
             margin-left: 280px;
             margin-top: 56px;
             padding: 30px;
             transition: all 0.3s ease;
         }
-        
+
+        /* RTL adjustments for sidebar and content */
+        html[dir="rtl"] .sidebar {
+            left: auto;
+            right: 0;
+            box-shadow: -2px 0 5px rgba(0,0,0,.1);
+        }
+
+        html[dir="rtl"] .main-content {
+            margin-left: 0;
+            margin-right: 280px;
+        }
+
         @media (max-width: 768px) {
             .sidebar {
                 left: -280px;
             }
-            
+
+            html[dir="rtl"] .sidebar {
+                left: auto;
+                right: -280px;
+            }
+
             .main-content {
                 margin-left: 0;
                 padding: 20px;
             }
-            
+
+            html[dir="rtl"] .main-content {
+                margin-right: 0;
+            }
+
             .sidebar.active {
                 left: 0;
             }
+
+            html[dir="rtl"] .sidebar.active {
+                right: 0;
+                left: auto;
+            }
         }
     </style>
+
+    <!-- Rest of your styles remain unchanged -->
     <style>
         :root {
             --primary: #4f46e5;
@@ -65,146 +99,80 @@
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
-    
+        
         [data-bs-theme="dark"] {
             --background: #0f172a;
             --card-bg: #1e293b;
-            --text: #f8fafc;
+            --text: #f1f5f9;
             --text-muted: #94a3b8;
             --border-color: #334155;
             --sidebar-bg: #1e293b;
             --sidebar-hover: #334155;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
         }
+
+        /* Rest of your CSS remains unchanged */
     </style>
-        <style>
-            body {
-                background-color: var(--background);
-                color: var(--text);
-                transition: all 0.3s ease;
-                font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            }
-        
-            .card {
-                background-color: var(--card-bg);
-                border-radius: 0.75rem;
-                border: 1px solid var(--border-color);
-                box-shadow: var(--shadow);
-                transition: transform 0.2s, box-shadow 0.2s;
-                overflow: hidden;
-            }
-            
-            .card:hover {
-                box-shadow: var(--shadow-lg);
-            }
-            
-            .card-header {
-                background-color: transparent;
-                border-bottom: 1px solid var(--border-color);
-                padding: 1.25rem 1.5rem;
-                font-weight: 600;
-            }
-            
-            .card-body {
-                padding: 1.5rem;
-            }
-            
-            .btn {
-                border-radius: 0.5rem;
-                padding: 0.5rem 1rem;
-                font-weight: 500;
-                transition: all 0.2s;
-            }
-            
-            .btn-primary {
-                background-color: var(--primary);
-                border-color: var(--primary);
-            }
-            
-            .btn-primary:hover {
-                background-color: var(--primary-hover);
-                border-color: var(--primary-hover);
-            }
-            
-            .form-control {
-                border-radius: 0.5rem;
-                padding: 0.625rem 1rem;
-                border: 1px solid var(--border-color);
-                transition: border-color 0.2s, box-shadow 0.2s;
-            }
-            
-            .form-control:focus {
-                border-color: var(--primary);
-                box-shadow: 0 0 0 0.25rem rgba(79, 70, 229, 0.25);
-            }
-            
-            .table {
-                border-color: var(--border-color);
-            }
-            
-            .table thead th {
-                font-weight: 600;
-                border-bottom-width: 1px;
-            }
-            
-            .badge {
-                font-weight: 500;
-                padding: 0.35em 0.65em;
-                border-radius: 0.375rem;
-            }
-            
-            .alert {
-                border-radius: 0.5rem;
-                border: none;
-            }
-        </style>
+
+    <!-- Additional styles for language selector -->
     <style>
-        /* Animations and transitions */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .language-selector .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        
-        .card, .alert {
-            animation: fadeIn 0.3s ease-out;
+
+        .language-selector .dropdown-item img {
+            width: 20px;
+            height: 14px;
+            object-fit: cover;
         }
-        
-        .btn {
-            position: relative;
-            overflow: hidden;
+
+        .language-selector .dropdown-toggle::after {
+            margin-left: 0.5em;
         }
-        
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 5px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.5);
-            opacity: 0;
-            border-radius: 100%;
-            transform: scale(1, 1) translate(-50%, -50%);
-            transform-origin: 50% 50%;
+
+        html[dir="rtl"] .language-selector .dropdown-toggle::after {
+            margin-left: 0;
+            margin-right: 0.5em;
         }
-        
-        .btn:focus:not(:active)::after {
-            animation: ripple 0.6s ease-out;
+
+        .current-language-flag {
+            width: 20px;
+            height: 14px;
+            object-fit: cover;
+            margin-right: 5px;
         }
-        
-        @keyframes ripple {
-            0% {
-                transform: scale(0, 0);
-                opacity: 0.5;
-            }
-            100% {
-                transform: scale(20, 20);
-                opacity: 0;
-            }
+
+        html[dir="rtl"] .current-language-flag {
+            margin-right: 0;
+            margin-left: 5px;
+        }
+
+        /* RTL specific adjustments */
+        html[dir="rtl"] .me-2, html[dir="rtl"] .me-3 {
+            margin-right: 0 !important;
+        }
+
+        html[dir="rtl"] .me-2 {
+            margin-left: 0.5rem !important;
+        }
+
+        html[dir="rtl"] .me-3 {
+            margin-left: 1rem !important;
+        }
+
+        html[dir="rtl"] .ms-3 {
+            margin-left: 0 !important;
+            margin-right: 1rem !important;
         }
     </style>
+
+    @stack('styles')
 </head>
 <body>
-    <!-- Header -->
     <!-- Header -->
     <nav class="navbar navbar-expand-lg shadow-sm fixed-top" style="background-color: var(--card-bg); border-bottom: 1px solid var(--border-color);">
         <div class="container-fluid">
@@ -214,36 +182,72 @@
                 </div>
                 <span class="fw-bold" style="color: var(--text);">MuscleHub</span>
             </a>
-            
+
             <div class="d-flex align-items-center gap-3">
+                <!-- Language Selector -->
+                @php
+                    $languages = \App\Models\Language::where('status', 1)->get();
+                    $currentLocale = session('locale', config('app.locale'));
+                    $currentLanguage = $languages->where('code', $currentLocale)->first();
+                @endphp
+
+                @if($languages->count() > 0)
+                <div class="dropdown language-selector">
+                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        @if($currentLanguage && $currentLanguage->flag_path)
+                            <img src="{{ asset('storage/' . $currentLanguage->flag_path) }}" alt="{{ $currentLanguage->name }}" class="current-language-flag">
+                        @endif
+                        {{ $currentLanguage ? $currentLanguage->name : __('English') }}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        @foreach($languages as $language)
+                            <li>
+                                <a class="dropdown-item {{ $currentLocale == $language->code ? 'active' : '' }}"
+                                   href="{{ route('language.change', $language->code) }}">
+                                    @if($language->flag_path)
+                                        <img src="{{ asset('storage/' . $language->flag_path) }}" alt="{{ $language->name }}">
+                                    @endif
+                                    {{ $language->name }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+
                 @auth
                 <div class="dropdown">
                     <button class="btn btn-link text-decoration-none p-0 d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: var(--text);">
-                        <div class="d-flex align-items-center justify-content-center rounded-circle bg-light" style="width: 32px; height: 32px;">
-                            <i class="bi bi-person-fill"></i>
-                        </div>
+                        @if(Auth::user()->profile_picture)
+                            <img src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="{{ Auth::user()->name }}" class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover;">
+                        @else
+                            <div class="d-flex align-items-center justify-content-center rounded-circle"
+                                 style="width: 32px; height: 32px; background-color: {{ '#' . substr(md5(Auth::user()->email), 0, 6) }}; color: white;">
+                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                            </div>
+                        @endif
                         <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
                         <i class="bi bi-chevron-down small"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow" style="min-width: 200px; border-radius: 0.5rem; border: 1px solid var(--border-color);">
-                        <li><h6 class="dropdown-header">Signed in as</h6></li>
+                        <li><h6 class="dropdown-header">{{ __('Signed in as') }}</h6></li>
                         <li><span class="dropdown-item-text fw-medium">{{ Auth::user()->email }}</span></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{ route('admin.profile.edit') }}"><i class="bi bi-person-gear me-2"></i>Profile</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form-nav').submit();"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.profile.edit') }}"><i class="bi bi-person-gear me-2"></i>{{ __('Profile') }}</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form-nav').submit();"><i class="bi bi-box-arrow-right me-2"></i>{{ __('Logout') }}</a></li>
                         <form id="logout-form-nav" action="{{ route('auth.logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
                     </ul>
                 </div>
                 @else
-                <a href="{{ route('auth.login') }}" class="btn btn-outline-primary">Login</a>
+                <a href="{{ route('auth.login') }}" class="btn btn-outline-primary">{{ __('Login') }}</a>
                 @endauth
-                
+
                 <button class="btn btn-icon" id="themeToggle" style="width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background-color: var(--sidebar-hover);">
                     <i class="bi bi-moon-stars"></i>
                 </button>
-                
+
                 @auth
                 <button class="navbar-toggler border-0" type="button" onclick="toggleSidebar()">
                     <i class="bi bi-list" style="color: var(--text); font-size: 1.5rem;"></i>
@@ -259,44 +263,66 @@
         <div class="d-flex flex-column gap-4">
             <!-- User Profile Section -->
             <div class="text-center py-4">
-                <div class="avatar-circle mx-auto mb-3">
-                    <i class="bi bi-person-circle fs-1"></i>
-                </div>
+                @if(Auth::user()->profile_picture)
+                    <div class="mx-auto mb-3">
+                        <img src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="{{ Auth::user()->name }}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover;">
+                    </div>
+                @else
+                    <div class="avatar-circle mx-auto mb-3 d-flex align-items-center justify-content-center"
+                         style="background-color: {{ '#' . substr(md5(Auth::user()->email), 0, 6) }};">
+                        <span style="font-size: 2rem; color: white;">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>
+                    </div>
+                @endif
                 <h6 class="mb-1" style="color: var(--text);">{{ Auth::user()->name }}</h6>
                 <span class="text-muted small">{{ Auth::user()->email }}</span>
+                @if(Auth::user()->role)
+                    <div class="mt-1">
+                        @if(Auth::user()->role === 'admin')
+                            <span class="badge bg-danger">{{ __('Admin') }}</span>
+                        @elseif(Auth::user()->role === 'moderator')
+                            <span class="badge bg-warning text-dark">{{ __('Moderator') }}</span>
+                        @else
+                            <span class="badge bg-info">{{ __('User') }}</span>
+                        @endif
+                    </div>
+                @endif
             </div>
-            
+
             <!-- Navigation -->
             <div class="nav-section">
-                <p class="sidebar-heading text-uppercase text-muted small fw-bold ms-3 mb-2">Main</p>
+                <p class="sidebar-heading text-uppercase text-muted small fw-bold ms-3 mb-2">{{ __('Main') }}</p>
                 <div class="nav flex-column">
                     <a href="{{ route('admin.dashboard') }}" class="nav-link d-flex align-items-center py-3 px-3 rounded-3 mb-1 {{ request()->routeIs('admin.dashboard') ? 'active bg-primary text-white' : '' }}">
                         <i class="bi bi-speedometer2 me-3"></i>
-                        <span>Dashboard</span>
+                        <span>{{ __('dashboard') }}</span>
                     </a>
                     <a href="{{ route('admin.products.index') }}" class="nav-link d-flex align-items-center py-3 px-3 rounded-3 mb-1 {{ request()->routeIs('admin.products.*') ? 'active bg-primary text-white' : '' }}">
                         <i class="bi bi-box-seam me-3"></i>
-                        <span>Products</span>
+                        <span>{{ __('Products') }}</span>
                     </a>
                     <a href="{{ route('admin.users.index') }}" class="nav-link d-flex align-items-center py-3 px-3 rounded-3 mb-1 {{ request()->routeIs('admin.users.*') ? 'active bg-primary text-white' : '' }}">
                         <i class="bi bi-people me-3"></i>
-                        <span>Users</span>
+                        <span>{{ __('Users') }}</span>
+                    </a>
+                    <a href="{{ route('admin.languages.index') }}" class="nav-link d-flex align-items-center py-3 px-3 rounded-3 mb-1 {{ request()->routeIs('admin.languages.*') ? 'active bg-primary text-white' : '' }}">
+                        <i class="bi bi-translate me-3"></i>
+                        <span>{{ __('Languages') }}</span>
                     </a>
                 </div>
             </div>
-            
+
             <!-- Account Section -->
             <div class="nav-section mt-auto">
-                <p class="sidebar-heading text-uppercase text-muted small fw-bold ms-3 mb-2">Account</p>
+                <p class="sidebar-heading text-uppercase text-muted small fw-bold ms-3 mb-2">{{ __('Account') }}</p>
                 <div class="nav flex-column">
                     <a href="{{ route('admin.profile.edit') }}" class="nav-link d-flex align-items-center py-3 px-3 rounded-3 mb-1 {{ request()->routeIs('admin.profile.*') ? 'active bg-primary text-white' : '' }}">
                         <i class="bi bi-person-gear me-3"></i>
-                        <span>Settings</span>
+                        <span>{{ __('Settings') }}</span>
                     </a>
-                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                        class="nav-link d-flex align-items-center py-3 px-3 rounded-3 mb-1 text-danger">
                         <i class="bi bi-box-arrow-right me-3"></i>
-                        <span>Logout</span>
+                        <span>{{ __('Logout') }}</span>
                     </a>
                     <form id="logout-form" action="{{ route('auth.logout') }}" method="POST" class="d-none">
                         @csrf
@@ -325,7 +351,7 @@
             // Initialize theme
             const themeToggle = document.getElementById('themeToggle');
             const htmlElement = document.documentElement;
-            
+
             // Check for saved theme preference or use preferred color scheme
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme) {
@@ -338,17 +364,20 @@
                 localStorage.setItem('theme', initialTheme);
                 updateThemeIcon(initialTheme);
             }
-            
+
             // Toggle theme when button is clicked
             themeToggle.addEventListener('click', function() {
                 const currentTheme = htmlElement.getAttribute('data-bs-theme');
                 const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                
+
                 htmlElement.setAttribute('data-bs-theme', newTheme);
                 localStorage.setItem('theme', newTheme);
                 updateThemeIcon(newTheme);
+                
+                // Apply theme to all elements that need it
+                applyThemeToElements(newTheme);
             });
-            
+
             function updateThemeIcon(theme) {
                 const icon = themeToggle.querySelector('i');
                 if (theme === 'dark') {
@@ -360,9 +389,28 @@
                 }
             }
             
+            function applyThemeToElements(theme) {
+                // This ensures all elements using CSS variables get updated
+                document.documentElement.style.setProperty('--card-bg', 
+                    theme === 'dark' ? '#1e293b' : '#ffffff');
+                document.documentElement.style.setProperty('--text', 
+                    theme === 'dark' ? '#f1f5f9' : '#1e293b');
+                document.documentElement.style.setProperty('--text-muted', 
+                    theme === 'dark' ? '#94a3b8' : '#64748b');
+                document.documentElement.style.setProperty('--border-color', 
+                    theme === 'dark' ? '#334155' : '#e2e8f0');
+                document.documentElement.style.setProperty('--sidebar-bg', 
+                    theme === 'dark' ? '#1e293b' : '#f8fafc');
+                document.documentElement.style.setProperty('--sidebar-hover', 
+                    theme === 'dark' ? '#334155' : '#f1f5f9');
+            }
+            
+            // Apply theme on initial load
+            applyThemeToElements(savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+
             // Initialize animations for all page elements
             initializeAnimations();
-            
+
             // Add click event listeners to all sidebar links to handle animations
             const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
             sidebarLinks.forEach(link => {
@@ -371,19 +419,19 @@
                     if (this.getAttribute('href') === '#' || this.hasAttribute('onclick')) {
                         return;
                     }
-                    
+
                     // Store the URL we're navigating to
                     const targetUrl = this.getAttribute('href');
-                    
+
                     // Only intercept if it's an internal link
                     if (targetUrl && targetUrl.startsWith(window.location.origin) || targetUrl.startsWith('/')) {
                         e.preventDefault();
-                        
+
                         // Fade out current content
                         const mainContent = document.querySelector('.main-content');
                         mainContent.style.transition = 'opacity 0.2s ease-out';
                         mainContent.style.opacity = '0';
-                        
+
                         // Navigate after a short delay
                         setTimeout(() => {
                             window.location.href = targetUrl;
@@ -392,13 +440,13 @@
                 });
             });
         });
-        
+
         // Toggle sidebar on mobile
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
             sidebar.classList.toggle('active');
         }
-        
+
         // Initialize animations for page elements
         function initializeAnimations() {
             // Apply animations to cards, alerts, and other elements
@@ -412,17 +460,17 @@
                     element.style.transform = 'translateY(0)';
                 }, 100);
             });
-            
+
             // Ensure main content is visible
             const mainContent = document.querySelector('.main-content');
             mainContent.style.opacity = '1';
         }
-        
+
         // Re-initialize animations when navigating between pages
         document.addEventListener('turbolinks:load', function() {
             initializeAnimations();
         });
-        
+
         // If not using Turbolinks, add this event listener for regular page loads
         window.addEventListener('pageshow', function(event) {
             // Check if the page is being loaded from cache
@@ -450,7 +498,14 @@
         flex-direction: column;
         overflow-y: auto;
     }
-    
+
+    /* RTL sidebar adjustments */
+    html[dir="rtl"] .sidebar {
+        left: auto;
+        right: 0;
+        box-shadow: -2px 0 15px rgba(0,0,0,.1);
+    }
+
     .avatar-circle {
         width: 80px;
         height: 80px;
@@ -461,23 +516,41 @@
         align-items: center;
         justify-content: center;
     }
-    
+
     .sidebar .nav-link {
         color: var(--text);
         transition: all 0.2s;
     }
-    
+
     .sidebar .nav-link:hover:not(.active) {
         background-color: var(--sidebar-hover);
     }
-    
+
     .sidebar-heading {
         letter-spacing: 1px;
         font-size: 0.75rem;
         color: var(--text-muted);
     }
-    
+
     .sidebar .text-muted {
         color: var(--text-muted) !important;
+    }
+    
+    /* Dark mode adjustments for dropdown menus */
+    [data-bs-theme="dark"] .dropdown-menu {
+        background-color: var(--card-bg);
+        border-color: var(--border-color);
+    }
+    
+    [data-bs-theme="dark"] .dropdown-item {
+        color: var(--text);
+    }
+    
+    [data-bs-theme="dark"] .dropdown-item:hover {
+        background-color: var(--sidebar-hover);
+    }
+    
+    [data-bs-theme="dark"] .dropdown-divider {
+        border-color: var(--border-color);
     }
 </style>

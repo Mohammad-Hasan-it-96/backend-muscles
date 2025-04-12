@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Profile')
+@section('title', __('Edit Profile'))
 
 @section('content')
 <div class="container-fluid">
@@ -8,16 +8,40 @@
         <div class="col-lg-8 mx-auto">
             <div class="card shadow">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Edit Profile</h5>
+                    <h5 class="mb-0">{{ __('Edit Profile') }}</h5>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.profile.update') }}">
+                    <form method="POST" action="{{ route('admin.profile.update') }}" enctype="multipart/form-data">
                         @csrf
-                        @method('PUT')
+                        @method('POST')
 
                         <div class="row g-4">
+                            <!-- Profile Picture Section -->
+                            <div class="col-12 text-center mb-3">
+                                <div class="position-relative d-inline-block">
+                                    @if(Auth::user()->profile_picture)
+                                        <img src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="{{ Auth::user()->name }}" class="rounded-circle" width="120" height="120" id="profile-preview" style="object-fit: cover;">
+                                    @else
+                                        <div class="d-flex align-items-center justify-content-center rounded-circle mx-auto" 
+                                             style="width: 120px; height: 120px; background-color: {{ '#' . substr(md5(Auth::user()->email), 0, 6) }}; color: white; font-size: 3rem;" id="profile-initials">
+                                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                        </div>
+                                    @endif
+                                    <label for="profile_picture" class="position-absolute bottom-0 end-0 bg-primary text-white rounded-circle p-2" style="cursor: pointer;">
+                                        <i class="bi bi-camera"></i>
+                                        <input type="file" id="profile_picture" name="profile_picture" class="d-none" accept="image/*">
+                                    </label>
+                                </div>
+                                <div class="mt-2">
+                                    <small class="text-muted">{{ __('Click the camera icon to change your profile picture') }}</small>
+                                </div>
+                                @error('profile_picture')
+                                    <div class="text-danger mt-2">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                             <div class="col-md-6">
-                                <label for="name" class="form-label">Full Name</label>
+                                <label for="name" class="form-label">{{ __('Full Name') }}</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-person"></i></span>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror" 
@@ -29,7 +53,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="email" class="form-label">Email Address</label>
+                                <label for="email" class="form-label">{{ __('Email Address') }}</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-envelope"></i></span>
                                     <input type="email" class="form-control" 
@@ -38,7 +62,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="password" class="form-label">New Password</label>
+                                <label for="password" class="form-label">{{ __('New Password') }}</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-key"></i></span>
                                     <input type="password" class="form-control @error('password') is-invalid @enderror" 
@@ -50,7 +74,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="password_confirmation" class="form-label">Confirm Password</label>
+                                <label for="password_confirmation" class="form-label">{{ __('Confirm Password') }}</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-check2-circle"></i></span>
                                     <input type="password" class="form-control" 
@@ -60,10 +84,10 @@
 
                             <div class="col-12 mt-4 d-flex gap-2">
                                 <button type="submit" class="btn btn-primary px-4">
-                                    <i class="bi bi-save me-2"></i>Update Profile
+                                    <i class="bi bi-save me-2"></i>{{ __('Update Profile') }}
                                 </button>
                                 <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-secondary px-4">
-                                    <i class="bi bi-x-circle me-2"></i>Cancel
+                                    <i class="bi bi-x-circle me-2"></i>{{ __('Cancel') }}
                                 </a>
                             </div>
                         </div>
@@ -74,3 +98,47 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const profilePictureInput = document.getElementById('profile_picture');
+        
+        if (profilePictureInput) {
+            profilePictureInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        const profilePreview = document.getElementById('profile-preview');
+                        const profileInitials = document.getElementById('profile-initials');
+                        
+                        if (profilePreview) {
+                            // Update existing image
+                            profilePreview.src = e.target.result;
+                        } else if (profileInitials) {
+                            // Replace initials with image
+                            const parent = profileInitials.parentNode;
+                            profileInitials.remove();
+                            
+                            const newImage = document.createElement('img');
+                            newImage.src = e.target.result;
+                            newImage.alt = "Profile Preview";
+                            newImage.id = "profile-preview";
+                            newImage.className = "rounded-circle";
+                            newImage.width = 120;
+                            newImage.height = 120;
+                            newImage.style.objectFit = "cover";
+                            
+                            // Insert before the label (which is the second child)
+                            parent.insertBefore(newImage, parent.children[0]);
+                        }
+                    }
+                    
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+        }
+    });
+</script>
+@endpush

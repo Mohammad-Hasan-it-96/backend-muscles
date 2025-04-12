@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class DashboardController extends BaseController
 {
