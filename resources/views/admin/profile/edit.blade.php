@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Edit Profile'))
+@section('title', \App\Helpers\Helpers::translate('Edit Profile'))
 
 @section('content')
 <div class="container-fluid">
@@ -8,7 +8,7 @@
         <div class="col-lg-8 mx-auto">
             <div class="card shadow">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">{{ __('Edit Profile') }}</h5>
+                    <h5 class="mb-0">{{ \App\Helpers\Helpers::translate('Edit Profile') }}</h5>
                 </div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('admin.profile.update') }}" enctype="multipart/form-data">
@@ -20,74 +20,87 @@
                             <div class="col-12 text-center mb-3">
                                 <div class="position-relative d-inline-block">
                                     @if(Auth::user()->profile_picture)
-                                        <img src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="{{ Auth::user()->name }}" class="rounded-circle" width="120" height="120" id="profile-preview" style="object-fit: cover;">
+                                    <img src="{{ asset('storage/' . Auth::user()->profile_picture) }}"
+                                        alt="{{ Auth::user()->name }}" class="rounded-circle" width="120" height="120"
+                                        id="profile-preview" style="object-fit: cover;">
                                     @else
-                                        <div class="d-flex align-items-center justify-content-center rounded-circle mx-auto" 
-                                             style="width: 120px; height: 120px; background-color: {{ '#' . substr(md5(Auth::user()->email), 0, 6) }}; color: white; font-size: 3rem;" id="profile-initials">
-                                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                                        </div>
+                                    <div class="d-flex align-items-center justify-content-center rounded-circle mx-auto"
+                                        style="width: 120px; height: 120px; background-color: {{ '#' . substr(md5(Auth::user()->email), 0, 6) }}; color: white; font-size: 3rem;"
+                                        id="profile-initials">
+                                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                    </div>
                                     @endif
-                                    <label for="profile_picture" class="position-absolute bottom-0 end-0 bg-primary text-white rounded-circle p-2" style="cursor: pointer;">
+                                    <label for="profile_picture"
+                                        class="position-absolute bottom-0 {{ App::isLocale('ar') || (session('site_direction') == 'rtl') ? 'start-0' : 'end-0' }} bg-primary text-white rounded-circle p-2"
+                                        style="cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
                                         <i class="bi bi-camera"></i>
-                                        <input type="file" id="profile_picture" name="profile_picture" class="d-none" accept="image/*">
+                                        <input type="file" id="profile_picture" name="profile_picture" class="d-none"
+                                            accept="image/*">
                                     </label>
                                 </div>
                                 <div class="mt-2">
-                                    <small class="text-muted">{{ __('Click the camera icon to change your profile picture') }}</small>
+                                    <small class="text-muted">{{ \App\Helpers\Helpers::translate('Click the camera icon
+                                        to change your profile picture') }}</small>
                                 </div>
                                 @error('profile_picture')
-                                    <div class="text-danger mt-2">{{ $message }}</div>
+                                <div class="text-danger mt-2">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="col-md-6">
-                                <label for="name" class="form-label">{{ __('Full Name') }}</label>
+                                <label for="name" class="form-label">{{ \App\Helpers\Helpers::translate('Full Name')
+                                    }}</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-person"></i></span>
-                                    <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                                           id="name" name="name" value="{{ old('name', Auth::user()->name) }}" required>
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                        id="name" name="name" value="{{ old('name', Auth::user()->name) }}" required>
                                 </div>
                                 @error('name')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="col-md-6">
-                                <label for="email" class="form-label">{{ __('Email Address') }}</label>
+                                <label for="email" class="form-label">{{ \App\Helpers\Helpers::translate('Email
+                                    Address') }}</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-envelope"></i></span>
-                                    <input type="email" class="form-control" 
-                                           id="email" value="{{ Auth::user()->email }}" disabled>
+                                    <input type="email" class="form-control" id="email"
+                                        value="{{ Auth::user()->email }}" disabled>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label for="password" class="form-label">{{ __('New Password') }}</label>
+                                <label for="password" class="form-label">{{ \App\Helpers\Helpers::translate('New
+                                    Password') }}</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-key"></i></span>
-                                    <input type="password" class="form-control @error('password') is-invalid @enderror" 
-                                           id="password" name="password">
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                        id="password" name="password">
                                 </div>
                                 @error('password')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="col-md-6">
-                                <label for="password_confirmation" class="form-label">{{ __('Confirm Password') }}</label>
+                                <label for="password_confirmation" class="form-label">{{
+                                    \App\Helpers\Helpers::translate('Confirm Password') }}</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-transparent"><i class="bi bi-check2-circle"></i></span>
-                                    <input type="password" class="form-control" 
-                                           id="password_confirmation" name="password_confirmation">
+                                    <span class="input-group-text bg-transparent"><i
+                                            class="bi bi-check2-circle"></i></span>
+                                    <input type="password" class="form-control" id="password_confirmation"
+                                        name="password_confirmation">
                                 </div>
                             </div>
 
                             <div class="col-12 mt-4 d-flex gap-2">
                                 <button type="submit" class="btn btn-primary px-4">
-                                    <i class="bi bi-save me-2"></i>{{ __('Update Profile') }}
+                                    <i class="bi bi-save me-2"></i>{{ \App\Helpers\Helpers::translate('Update Profile')
+                                    }}
                                 </button>
                                 <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-secondary px-4">
-                                    <i class="bi bi-x-circle me-2"></i>{{ __('Cancel') }}
+                                    <i class="bi bi-x-circle me-2"></i>{{ \App\Helpers\Helpers::translate('Cancel') }}
                                 </a>
                             </div>
                         </div>

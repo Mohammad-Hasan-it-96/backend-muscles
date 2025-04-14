@@ -64,8 +64,8 @@ class AuthController extends Controller
         );
 
         return $status === Password::RESET_LINK_SENT
-            ? response()->json(['message' => __($status)])
-            : response()->json(['email' => __($status)], 422);
+            ? response()->json(['message' => \App\Helpers\Helpers::translate($status)])
+            : response()->json(['email' => \App\Helpers\Helpers::translate($status)], 422);
     }
 
     public function resetPassword(Request $request)
@@ -90,8 +90,8 @@ class AuthController extends Controller
         );
 
         return $status === Password::PASSWORD_RESET
-            ? response()->json(['message' => __($status)])
-            : response()->json(['email' => [__($status)]], 422);
+            ? response()->json(['message' => \App\Helpers\Helpers::translate($status)])
+            : response()->json(['email' => [\App\Helpers\Helpers::translate($status)]], 422);
     }
 
     public function view_login()

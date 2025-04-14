@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('app.register'))
+@section('title', \App\Helpers\Helpers::translate('app.register'))
 
 @section('content')
 <div class="container py-5">
@@ -10,8 +10,8 @@
                 <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 70px; height: 70px; background-color: var(--primary); color: white;">
                     <i class="bi bi-person-plus fs-1"></i>
                 </div>
-                <h2 class="fw-bold">{{ __('Create Account') }}</h2>
-                <p class="text-muted">{{ __('Join MuscleHub to get started') }}</p>
+                <h2 class="fw-bold">{{ \App\Helpers\Helpers::translate('Create Account') }}</h2>
+                <p class="text-muted">{{ \App\Helpers\Helpers::translate('Join MuscleHub to get started') }}</p>
             </div>
             
             <div class="card border-0 shadow-lg">
@@ -20,7 +20,7 @@
                         @csrf
 
                         <div class="mb-4">
-                            <label for="name" class="form-label">{{ __('app.full_name') }}</label>
+                            <label for="name" class="form-label">{{ \App\Helpers\Helpers::translate('app.full_name') }}</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-transparent"><i class="bi bi-person"></i></span>
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" 
@@ -35,7 +35,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="email" class="form-label">{{ __('app.email_address') }}</label>
+                            <label for="email" class="form-label">{{ \App\Helpers\Helpers::translate('app.email_address') }}</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-transparent"><i class="bi bi-envelope"></i></span>
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" 
@@ -81,9 +81,9 @@
                         </div>
                         
                         <div class="text-center">
-                            <p class="mb-0">{{ __('app.already_have_account') }} 
+                            <p class="mb-0">{{ \App\Helpers\Helpers::translate('app.already_have_account') }} 
                                 <a href="{{ route('auth.view_login') }}" class="text-decoration-none fw-medium">
-                                    {{ __('app.login') }}
+                                    {{ \App\Helpers\Helpers::translate('app.login') }}
                                 </a>
                             </p>
                         </div>

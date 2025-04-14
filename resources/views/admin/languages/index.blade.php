@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
-@section('title', __('app.languages_management'))
+@section('title', \App\Helpers\Helpers::translate('app.languages_management'))
 
 @section('content')
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h2 class="fw-bold mb-0">{{ __('app.languages_management') }}</h2>
-            <p class="text-muted">{{ __('app.manage_languages') }}</p>
+            <h2 class="fw-bold mb-0">{{ \App\Helpers\Helpers::translate('app.languages_management') }}</h2>
+            <p class="text-muted">{{ \App\Helpers\Helpers::translate('app.manage_languages') }}</p>
         </div>
         <a href="{{ route('admin.languages.create') }}" class="btn btn-primary">
-            <i class="bi bi-plus-lg me-2"></i>{{ __('app.add_language') }}
+            <i class="bi bi-plus-lg me-2"></i>{{ \App\Helpers\Helpers::translate('app.add_language') }}
         </a>
     </div>
 
@@ -18,7 +18,7 @@
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <div class="d-flex align-items-center">
             <i class="bi bi-check-circle-fill me-2"></i>
-            <strong>{{ __('app.success') }}!</strong> {{ session('success') }}
+            <strong>{{ \App\Helpers\Helpers::translate('app.success') }}!</strong> {{ session('success') }}
         </div>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
@@ -28,7 +28,7 @@
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <div class="d-flex align-items-center">
             <i class="bi bi-exclamation-triangle-fill me-2"></i>
-            <strong>{{ __('app.error') }}!</strong> {{ session('error') }}
+            <strong>{{ \App\Helpers\Helpers::translate('app.error') }}!</strong> {{ session('error') }}
         </div>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
@@ -36,15 +36,15 @@
 
     <div class="card border-0 shadow-lg">
         <div class="card-header d-flex justify-content-between align-items-center py-3">
-            <h5 class="mb-0">{{ __('app.all_languages') }}</h5>
+            <h5 class="mb-0">{{ \App\Helpers\Helpers::translate('app.all_languages') }}</h5>
             <div class="d-flex gap-2">
                 <div class="input-group">
                     <span class="input-group-text border-end-0" style="background-color: var(--input-bg);">
                         <i class="bi bi-search"></i>
                     </span>
-                    <input type="text" class="form-control border-start-0 ps-0" id="searchLanguages" placeholder="{{ __('app.search_languages') }}">
+                    <input type="text" class="form-control border-start-0 ps-0" id="searchLanguages" placeholder="{{ \App\Helpers\Helpers::translate('app.search_languages') }}">
                 </div>
-                <button class="btn" style="background-color: var(--input-bg);" title="{{ __('app.refresh') }}">
+                <button class="btn" style="background-color: var(--input-bg);" title="{{ \App\Helpers\Helpers::translate('app.refresh') }}">
                     <i class="bi bi-arrow-clockwise"></i>
                 </button>
             </div>
@@ -55,14 +55,14 @@
                     <thead class="bg-light">
                         <tr>
                             <th class="ps-4" style="width: 50px;">ID</th>
-                            <th>{{ __('app.flag_image') }}</th>
-                            <th>{{ __('app.language_name') }}</th>
-                            <th>{{ __('app.language_code') }}</th>
-                            <th>{{ __('app.direction') }}</th>
-                            <th>{{ __('app.status') }}</th>
-                            <th>{{ __('app.default') }}</th>
-                            <th>{{ __('Created On') }}</th>
-                            <th class="text-end pe-4">{{ __('app.actions') }}</th>
+                            <th>{{ \App\Helpers\Helpers::translate('app.flag_image') }}</th>
+                            <th>{{ \App\Helpers\Helpers::translate('app.language_name') }}</th>
+                            <th>{{ \App\Helpers\Helpers::translate('app.language_code') }}</th>
+                            <th>{{ \App\Helpers\Helpers::translate('app.direction') }}</th>
+                            <th>{{ \App\Helpers\Helpers::translate('app.status') }}</th>
+                            <th>{{ \App\Helpers\Helpers::translate('app.default') }}</th>
+                            <th>{{ \App\Helpers\Helpers::translate('Created On') }}</th>
+                            <th class="text-end pe-4">{{ \App\Helpers\Helpers::translate('app.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -84,40 +84,40 @@
                             </td>
                             <td>
                                 @if($language->direction == 'rtl')
-                                    <span class="badge bg-info">{{ __('app.rtl') }}</span>
+                                    <span class="badge bg-info">{{ \App\Helpers\Helpers::translate('app.rtl') }}</span>
                                 @else
-                                    <span class="badge bg-light text-dark">{{ __('app.ltr') }}</span>
+                                    <span class="badge bg-light text-dark">{{ \App\Helpers\Helpers::translate('app.ltr') }}</span>
                                 @endif
                             </td>
                             <td>
                                 @if($language->status)
-                                    <span class="badge bg-success">{{ __('app.active') }}</span>
+                                    <span class="badge bg-success">{{ \App\Helpers\Helpers::translate('app.active') }}</span>
                                 @else
-                                    <span class="badge bg-danger">{{ __('app.inactive') }}</span>
+                                    <span class="badge bg-danger">{{ \App\Helpers\Helpers::translate('app.inactive') }}</span>
                                 @endif
                             </td>
                             <td>
                                 @if($language->is_default)
-                                    <span class="badge bg-primary">{{ __('app.default') }}</span>
+                                    <span class="badge bg-primary">{{ \App\Helpers\Helpers::translate('app.default') }}</span>
                                 @else
-                                    <span class="badge bg-light text-dark">{{ __('app.no') }}</span>
+                                    <span class="badge bg-light text-dark">{{ \App\Helpers\Helpers::translate('app.no') }}</span>
                                 @endif
                             </td>
                             <td>{{ $language->created_at->format('M d, Y') }}</td>
                             <td>
                                 <div class="d-flex justify-content-end gap-2 pe-4">
-                                    <a href="{{ route('admin.languages.edit', $language->id) }}" class="btn btn-sm btn-outline-primary" title="{{ __('app.edit') }}">
+                                    <a href="{{ route('admin.languages.edit', $language->id) }}" class="btn btn-sm btn-outline-primary" title="{{ \App\Helpers\Helpers::translate('app.edit') }}">
                                         <i class="bi bi-pencil"></i>
                                     </a>
                                     @if(!$language->is_default)
                                     <button type="button" class="btn btn-sm btn-outline-danger delete-language" 
-                                            title="{{ __('app.delete') }}" 
+                                            title="{{ \App\Helpers\Helpers::translate('app.delete') }}" 
                                             data-id="{{ $language->id }}" 
                                             data-name="{{ $language->name }}">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                     @else
-                                    <button type="button" class="btn btn-sm btn-outline-danger" disabled title="{{ __('app.cannot_delete_default') }}">
+                                    <button type="button" class="btn btn-sm btn-outline-danger" disabled title="{{ \App\Helpers\Helpers::translate('app.cannot_delete_default') }}">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                     @endif
@@ -129,8 +129,8 @@
                             <td colspan="9" class="text-center py-4">
                                 <div class="d-flex flex-column align-items-center py-5">
                                     <i class="bi bi-translate text-muted" style="font-size: 3rem;"></i>
-                                    <h5 class="mt-3">{{ __('app.no_languages_found') }}</h5>
-                                    <p class="text-muted">{{ __('app.try_adding_language') }}</p>
+                                    <h5 class="mt-3">{{ \App\Helpers\Helpers::translate('app.no_languages_found') }}</h5>
+                                    <p class="text-muted">{{ \App\Helpers\Helpers::translate('app.try_adding_language') }}</p>
                                 </div>
                             </td>
                         </tr>
@@ -141,7 +141,7 @@
         </div>
         <div class="card-footer border-top d-flex justify-content-between align-items-center py-3">
             <div>
-                <span class="text-muted">{{ __('app.showing') }} {{ $languages->firstItem() ?? 0 }} {{ __('app.to') }} {{ $languages->lastItem() ?? 0 }} {{ __('app.of') }} {{ $languages->total() }} {{ __('app.entries') }}</span>
+                <span class="text-muted">{{ \App\Helpers\Helpers::translate('app.showing') }} {{ $languages->firstItem() ?? 0 }} {{ \App\Helpers\Helpers::translate('app.to') }} {{ $languages->lastItem() ?? 0 }} {{ \App\Helpers\Helpers::translate('app.of') }} {{ $languages->total() }} {{ \App\Helpers\Helpers::translate('app.entries') }}</span>
             </div>
             <div>
                 {{ $languages->links('pagination::bootstrap-5') }}
@@ -155,22 +155,22 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header border-0">
-                <h5 class="modal-title">{{ __('app.confirm_delete') }}</h5>
+                <h5 class="modal-title">{{ \App\Helpers\Helpers::translate('app.confirm_delete') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center py-4">
                 <div class="mb-4">
                     <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 4rem;"></i>
                 </div>
-                <h4 class="mb-3">{{ __('app.are_you_sure') }}</h4>
-                <p class="text-muted mb-0">{!! __('app.delete_confirmation', ['name' => '<span id="languageName" class="fw-bold"></span>']) !!}</p>
+                <h4 class="mb-3">{{ \App\Helpers\Helpers::translate('app.are_you_sure') }}</h4>
+                <p class="text-muted mb-0">{!! \App\Helpers\Helpers::translate('app.delete_confirmation', ['name' => '<span id="languageName" class="fw-bold"></span>']) !!}</p>
             </div>
             <div class="modal-footer border-0 justify-content-center gap-2 pb-4">
-                <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">{{ __('app.cancel') }}</button>
+                <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">{{ \App\Helpers\Helpers::translate('app.cancel') }}</button>
                 <form id="deleteLanguageForm" method="POST" action="">
                     @csrf
                     <input type="hidden" name="_method" value="DELETE">
-                    <button type="submit" class="btn btn-danger px-4">{{ __('app.delete') }}</button>
+                    <button type="submit" class="btn btn-danger px-4">{{ \App\Helpers\Helpers::translate('app.delete') }}</button>
                 </form>
             </div>
         </div>

@@ -5,7 +5,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold">{{__('Dashboard')}}</h2>
+        <h2 class="fw-bold">{{\App\Helpers\Helpers::translate('Dashboard')}}</h2>
         <div class="d-flex gap-2">
             <button class="btn btn-outline-primary">
                 <i class="bi bi-download me-2"></i>Export

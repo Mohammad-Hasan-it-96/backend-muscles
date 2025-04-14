@@ -197,7 +197,7 @@
                         @if($currentLanguage && $currentLanguage->flag_path)
                             <img src="{{ asset('storage/' . $currentLanguage->flag_path) }}" alt="{{ $currentLanguage->name }}" class="current-language-flag">
                         @endif
-                        {{ $currentLanguage ? $currentLanguage->name : __('English') }}
+                        {{ $currentLanguage ? $currentLanguage->name : \App\Helpers\Helpers::translate('English') }}
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         @foreach($languages as $language)
@@ -230,18 +230,18 @@
                         <i class="bi bi-chevron-down small"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow" style="min-width: 200px; border-radius: 0.5rem; border: 1px solid var(--border-color);">
-                        <li><h6 class="dropdown-header">{{ __('Signed in as') }}</h6></li>
+                        <li><h6 class="dropdown-header">{{ \App\Helpers\Helpers::translate('Signed in as') }}</h6></li>
                         <li><span class="dropdown-item-text fw-medium">{{ Auth::user()->email }}</span></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{ route('admin.profile.edit') }}"><i class="bi bi-person-gear me-2"></i>{{ __('Profile') }}</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form-nav').submit();"><i class="bi bi-box-arrow-right me-2"></i>{{ __('Logout') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.profile.edit') }}"><i class="bi bi-person-gear me-2"></i>{{ \App\Helpers\Helpers::translate('Profile') }}</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form-nav').submit();"><i class="bi bi-box-arrow-right me-2"></i>{{ \App\Helpers\Helpers::translate('Logout') }}</a></li>
                         <form id="logout-form-nav" action="{{ route('auth.logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
                     </ul>
                 </div>
                 @else
-                <a href="{{ route('auth.login') }}" class="btn btn-outline-primary">{{ __('Login') }}</a>
+                <a href="{{ route('auth.login') }}" class="btn btn-outline-primary">{{ \App\Helpers\Helpers::translate('Login') }}</a>
                 @endauth
 
                 <button class="btn btn-icon" id="themeToggle" style="width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background-color: var(--sidebar-hover);">
@@ -278,11 +278,11 @@
                 @if(Auth::user()->role)
                     <div class="mt-1">
                         @if(Auth::user()->role === 'admin')
-                            <span class="badge bg-danger">{{ __('Admin') }}</span>
+                            <span class="badge bg-danger">{{ \App\Helpers\Helpers::translate('Admin') }}</span>
                         @elseif(Auth::user()->role === 'moderator')
-                            <span class="badge bg-warning text-dark">{{ __('Moderator') }}</span>
+                            <span class="badge bg-warning text-dark">{{ \App\Helpers\Helpers::translate('Moderator') }}</span>
                         @else
-                            <span class="badge bg-info">{{ __('User') }}</span>
+                            <span class="badge bg-info">{{ \App\Helpers\Helpers::translate('User') }}</span>
                         @endif
                     </div>
                 @endif
@@ -290,39 +290,105 @@
 
             <!-- Navigation -->
             <div class="nav-section">
-                <p class="sidebar-heading text-uppercase text-muted small fw-bold ms-3 mb-2">{{ __('Main') }}</p>
+                <p class="sidebar-heading text-uppercase text-muted small fw-bold ms-3 mb-2">{{ \App\Helpers\Helpers::translate('Main') }}</p>
                 <div class="nav flex-column">
-                    <a href="{{ route('admin.dashboard') }}" class="nav-link d-flex align-items-center py-3 px-3 rounded-3 mb-1 {{ request()->routeIs('admin.dashboard') ? 'active bg-primary text-white' : '' }}">
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link d-flex align-items-center py-3 px-3 rounded-3 mb-1 {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                         <i class="bi bi-speedometer2 me-3"></i>
-                        <span>{{ __('dashboard') }}</span>
+                        <span>{{ \App\Helpers\Helpers::translate('dashboard') }}</span>
                     </a>
-                    <a href="{{ route('admin.products.index') }}" class="nav-link d-flex align-items-center py-3 px-3 rounded-3 mb-1 {{ request()->routeIs('admin.products.*') ? 'active bg-primary text-white' : '' }}">
-                        <i class="bi bi-box-seam me-3"></i>
-                        <span>{{ __('Products') }}</span>
-                    </a>
-                    <a href="{{ route('admin.users.index') }}" class="nav-link d-flex align-items-center py-3 px-3 rounded-3 mb-1 {{ request()->routeIs('admin.users.*') ? 'active bg-primary text-white' : '' }}">
-                        <i class="bi bi-people me-3"></i>
-                        <span>{{ __('Users') }}</span>
-                    </a>
-                    <a href="{{ route('admin.languages.index') }}" class="nav-link d-flex align-items-center py-3 px-3 rounded-3 mb-1 {{ request()->routeIs('admin.languages.*') ? 'active bg-primary text-white' : '' }}">
-                        <i class="bi bi-translate me-3"></i>
-                        <span>{{ __('Languages') }}</span>
-                    </a>
+                    
+                    <!-- Products Dropdown -->
+                    <div class="sidebar-item mb-1">
+                        <button class="nav-link d-flex align-items-center justify-content-between w-100 py-3 px-3 rounded-3 border-0 bg-transparent {{ request()->routeIs('admin.products.*') ? 'active' : '' }}" 
+                                data-bs-toggle="collapse" data-bs-target="#productsCollapse" aria-expanded="{{ request()->routeIs('admin.products.*') ? 'true' : 'false' }}">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-box-seam me-3" style="{{ request()->routeIs('admin.products.*') ? 'color: #ffffff !important;' : '' }}"></i>
+                                <span style="{{ request()->routeIs('admin.products.*') ? 'color: #ffffff !important;' : '' }}">{{ \App\Helpers\Helpers::translate('Products') }}</span>
+                            </div>
+                            <i class="bi {{ request()->routeIs('admin.products.*') ? 'bi-chevron-down' : 'bi-chevron-right' }}" style="{{ request()->routeIs('admin.products.*') ? 'color: #ffffff !important;' : '' }}"></i>
+                        </button>
+                        <div class="collapse {{ request()->routeIs('admin.products.*') ? 'show' : '' }}" id="productsCollapse">
+                            <div class="nav flex-column ms-4 mt-1">
+                                <a href="{{ route('admin.products.index') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->routeIs('admin.products.index') ? 'active' : '' }}">
+                                    <i class="bi bi-list me-2"></i>
+                                    <span>{{ \App\Helpers\Helpers::translate('List') }}</span>
+                                </a>
+                                @if(Auth::user()->role === 'admin' || Auth::user()->role === 'moderator')
+                                <a href="{{ route('admin.products.create') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->routeIs('admin.products.create') ? 'active' : '' }}">
+                                    <i class="bi bi-plus-circle me-2"></i>
+                                    <span>{{ \App\Helpers\Helpers::translate('Add New') }}</span>
+                                </a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Users Dropdown - Only for Admins -->
+                    @if(Auth::user()->role === 'admin')
+                    <div class="sidebar-item mb-1">
+                        <button class="nav-link d-flex align-items-center justify-content-between w-100 py-3 px-3 rounded-3 border-0 bg-transparent {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" 
+                                data-bs-toggle="collapse" data-bs-target="#usersCollapse" aria-expanded="{{ request()->routeIs('admin.users.*') ? 'true' : 'false' }}">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-people me-3" style="{{ request()->routeIs('admin.users.*') ? 'color: #ffffff !important;' : '' }}"></i>
+                                <span style="{{ request()->routeIs('admin.users.*') ? 'color: #ffffff !important;' : '' }}">{{ \App\Helpers\Helpers::translate('Users') }}</span>
+                            </div>
+                            <i class="bi {{ request()->routeIs('admin.users.*') ? 'bi-chevron-down' : 'bi-chevron-right' }}" style="{{ request()->routeIs('admin.users.*') ? 'color: #ffffff !important;' : '' }}"></i>
+                        </button>
+                        <div class="collapse {{ request()->routeIs('admin.users.*') ? 'show' : '' }}" id="usersCollapse">
+                            <div class="nav flex-column ms-4 mt-1">
+                                <a href="{{ route('admin.users.index') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->routeIs('admin.users.index') ? 'active' : '' }}">
+                                    <i class="bi bi-list me-2"></i>
+                                    <span>{{ \App\Helpers\Helpers::translate('List') }}</span>
+                                </a>
+                                <a href="{{ route('admin.users.create') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->routeIs('admin.users.create') ? 'active' : '' }}">
+                                    <i class="bi bi-plus-circle me-2"></i>
+                                    <span>{{ \App\Helpers\Helpers::translate('Add New') }}</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                    
+                    <!-- Languages Dropdown -->
+                    <div class="sidebar-item mb-1">
+                        <button class="nav-link d-flex align-items-center justify-content-between w-100 py-3 px-3 rounded-3 border-0 bg-transparent {{ request()->routeIs('admin.languages.*') ? 'active' : '' }}" 
+                                data-bs-toggle="collapse" data-bs-target="#languagesCollapse" aria-expanded="{{ request()->routeIs('admin.languages.*') ? 'true' : 'false' }}">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-translate me-3" style="{{ request()->routeIs('admin.languages.*') ? 'color: #ffffff !important;' : '' }}"></i>
+                                <span style="{{ request()->routeIs('admin.languages.*') ? 'color: #ffffff !important;' : '' }}">{{ \App\Helpers\Helpers::translate('Languages') }}</span>
+                            </div>
+                            <i class="bi {{ request()->routeIs('admin.languages.*') ? 'bi-chevron-down' : 'bi-chevron-right' }}" style="{{ request()->routeIs('admin.languages.*') ? 'color: #ffffff !important;' : '' }}"></i>
+                        </button>
+                        <div class="collapse {{ request()->routeIs('admin.languages.*') ? 'show' : '' }}" id="languagesCollapse">
+                            <div class="nav flex-column ms-4 mt-1">
+                                <a href="{{ route('admin.languages.index') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->routeIs('admin.languages.index') ? 'active' : '' }}">
+                                    <i class="bi bi-list me-2"></i>
+                                    <span>{{ \App\Helpers\Helpers::translate('List') }}</span>
+                                </a>
+                                @if(Auth::user()->role === 'admin' || Auth::user()->role === 'moderator')
+                                <a href="{{ route('admin.languages.create') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->routeIs('admin.languages.create') ? 'active' : '' }}">
+                                    <i class="bi bi-plus-circle me-2"></i>
+                                    <span>{{ \App\Helpers\Helpers::translate('Add New') }}</span>
+                                </a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- Account Section -->
             <div class="nav-section mt-auto">
-                <p class="sidebar-heading text-uppercase text-muted small fw-bold ms-3 mb-2">{{ __('Account') }}</p>
+                <p class="sidebar-heading text-uppercase text-muted small fw-bold ms-3 mb-2">{{ \App\Helpers\Helpers::translate('Account') }}</p>
                 <div class="nav flex-column">
-                    <a href="{{ route('admin.profile.edit') }}" class="nav-link d-flex align-items-center py-3 px-3 rounded-3 mb-1 {{ request()->routeIs('admin.profile.*') ? 'active bg-primary text-white' : '' }}">
+                    <a href="{{ route('admin.profile.edit') }}" class="nav-link d-flex align-items-center py-3 px-3 rounded-3 mb-1 {{ request()->routeIs('admin.profile.*') ? 'active' : '' }}">
                         <i class="bi bi-person-gear me-3"></i>
-                        <span>{{ __('Settings') }}</span>
+                        <span>{{ \App\Helpers\Helpers::translate('Settings') }}</span>
                     </a>
                     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                        class="nav-link d-flex align-items-center py-3 px-3 rounded-3 mb-1 text-danger">
                         <i class="bi bi-box-arrow-right me-3"></i>
-                        <span>{{ __('Logout') }}</span>
+                        <span>{{ \App\Helpers\Helpers::translate('Logout') }}</span>
                     </a>
                     <form id="logout-form" action="{{ route('auth.logout') }}" method="POST" class="d-none">
                         @csrf
@@ -534,6 +600,54 @@
 
     .sidebar .text-muted {
         color: var(--text-muted) !important;
+    }
+    
+    /* Sidebar dropdown styles */
+    .sidebar-item button {
+        text-align: left;
+        font-size: 1rem;
+        color: var(--text);
+    }
+    
+    .sidebar-item button:hover:not(.active) {
+        background-color: var(--sidebar-hover);
+    }
+    
+    .sidebar-item button:focus {
+        outline: none;
+        box-shadow: none;
+    }
+    
+    /* Fix for active items - with increased specificity */
+    .sidebar .nav-link.active,
+    .sidebar-item button.active {
+        background-color: var(--primary) !important;
+    }
+    
+    .sidebar .nav-link.active span,
+    .sidebar .nav-link.active i,
+    .sidebar-item button.active span,
+    .sidebar-item button.active i {
+        color: #ffffff !important; /* Use explicit #ffffff instead of 'white' */
+    }
+    
+    /* Additional specificity for dropdown items */
+    .sidebar-item .collapse .nav-link.active span,
+    .sidebar-item .collapse .nav-link.active i {
+        color: #ffffff !important;
+    }
+    
+    /* Ensure text is visible in all states */
+    .sidebar-item button span,
+    .sidebar-item .nav-link span {
+        color: var(--text);
+    }
+    
+    .sidebar-item button.active span,
+    .sidebar-item button.active i,
+    .sidebar-item .nav-link.active span,
+    .sidebar-item .nav-link.active i {
+        color: #ffffff !important;
     }
     
     /* Dark mode adjustments for dropdown menus */

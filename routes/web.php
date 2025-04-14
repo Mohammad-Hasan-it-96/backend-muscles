@@ -29,32 +29,53 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'admin.'], function () {
+    // Dashboard - accessible by all authenticated users
     Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+
+    // Products routes
     Route::group(['prefix' => 'products', 'as' => 'products.'], function () {
+        // List route - accessible by all authenticated users
         Route::get('', [ProductController::class, 'index'])->name('index');
-        Route::get('create', [ProductController::class, 'create'])->name('create');
-        Route::post('store', [ProductController::class, 'store'])->name('store');
-        Route::get('edit/{id}', [ProductController::class, 'edit'])->name('edit');
-        Route::put('update/{id}', [ProductController::class, 'update'])->name('update');
-        Route::delete('delete/{id}', [ProductController::class, 'destroy'])->name('delete');
+
+        // Create, edit, update, delete - only for admin and moderator
+        Route::middleware(['moderator'])->group(function () {
+            Route::get('create', [ProductController::class, 'create'])->name('create');
+            Route::post('store', [ProductController::class, 'store'])->name('store');
+            Route::get('edit/{id}', [ProductController::class, 'edit'])->name('edit');
+            Route::put('update/{id}', [ProductController::class, 'update'])->name('update');
+            Route::delete('delete/{id}', [ProductController::class, 'destroy'])->name('delete');
+        });
     });
+
+    // Profile routes - accessible by all authenticated users
     Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
         Route::get('edit', [ProfileController::class, 'edit'])->name('edit');
         Route::post('update', [ProfileController::class, 'update'])->name('update');
         Route::post('delete', [ProfileController::class, 'destroy'])->name('delete');
     });
-    Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
+
+    // Users routes - only for admin
+    Route::group(['middleware' => 'admin', 'prefix' => 'users', 'as' => 'users.'], function () {
         Route::get('', [UserController::class, 'index'])->name('index');
+        Route::get('create', [UserController::class, 'create'])->name('create');
+        Route::post('store', [UserController::class, 'store'])->name('store');
         Route::get('edit/{id}', [UserController::class, 'edit'])->name('edit');
         Route::post('update/{id}', [UserController::class, 'update'])->name('update');
         Route::post('delete/{id}', [UserController::class, 'destroy'])->name('delete');
     });
+
+    // Languages routes
     Route::group(['prefix' => 'languages', 'as' => 'languages.'], function () {
+        // List route - accessible by all authenticated users
         Route::get('', [LanguageController::class, 'index'])->name('index');
-        Route::get('create', [LanguageController::class, 'create'])->name('create');
-        Route::post('store', [LanguageController::class, 'store'])->name('store');
-        Route::get('edit/{id}', [LanguageController::class, 'edit'])->name('edit');
-        Route::post('update/{id}', [LanguageController::class, 'update'])->name('update');
-        Route::post('destroy/{id}', [LanguageController::class, 'destroy'])->name('destroy');
+
+        // Create, edit, update, delete - only for admin and moderator
+        Route::middleware(['moderator'])->group(function () {
+            Route::get('create', [LanguageController::class, 'create'])->name('create');
+            Route::post('store', [LanguageController::class, 'store'])->name('store');
+            Route::get('edit/{id}', [LanguageController::class, 'edit'])->name('edit');
+            Route::post('update/{id}', [LanguageController::class, 'update'])->name('update');
+            Route::post('destroy/{id}', [LanguageController::class, 'destroy'])->name('destroy');
+        });
     });
 });

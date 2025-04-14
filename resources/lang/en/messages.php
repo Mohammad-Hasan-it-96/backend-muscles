@@ -1,0 +1,26 @@
+<?php
+
+return array (
+  'Signed in as' => 'Signed in as',
+  'Profile' => 'Profile',
+  'Logout' => 'Logout',
+  'Admin' => 'Admin',
+  'Main' => 'Main',
+  'dashboard' => 'Dashboard',
+  'Products' => 'Products',
+  'Users' => 'Users',
+  'Languages' => 'Languages',
+  'Account' => 'Account',
+  'Settings' => 'Settings',
+  'app.delete' => 'App.delete',
+  'Cancel' => 'Cancel',
+  'Update Profile' => 'Update Profile',
+  'Dashboard' => 'Dashboard',
+  'Add New' => 'Add New',
+  'List' => 'List',
+  'app.cancel' => 'App.cancel',
+  'app.delete_confirmation' => 'App.delete confirmation',
+  'app.are_you_sure' => 'App.are you sure',
+  'app.save' => 'App.save',
+  'Moderator' => 'Moderator',
+);
