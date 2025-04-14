@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', \App\Helpers\Helpers::translate('Edit Profile'))
+@section('title', \App\Helpers\Helpers::translate('edit_profile'))
 
 @section('content')
 <div class="container-fluid">
@@ -8,7 +8,7 @@
         <div class="col-lg-8 mx-auto">
             <div class="card shadow">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">{{ \App\Helpers\Helpers::translate('Edit Profile') }}</h5>
+                    <h5 class="mb-0">{{\App\Helpers\Helpers::translate('edit_profile')}}</h5>
                 </div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('admin.profile.update') }}" enctype="multipart/form-data">
@@ -39,8 +39,7 @@
                                     </label>
                                 </div>
                                 <div class="mt-2">
-                                    <small class="text-muted">{{ \App\Helpers\Helpers::translate('Click the camera icon
-                                        to change your profile picture') }}</small>
+                                    <small class="text-muted">{{\App\Helpers\Helpers::translate('click_camera_to_change_profile')}}</small>
                                 </div>
                                 @error('profile_picture')
                                 <div class="text-danger mt-2">{{ $message }}</div>
@@ -48,8 +47,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="name" class="form-label">{{ \App\Helpers\Helpers::translate('Full Name')
-                                    }}</label>
+                                <label for="name" class="form-label">{{\App\Helpers\Helpers::translate('full_name')}}</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-person"></i></span>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
@@ -61,8 +59,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="email" class="form-label">{{ \App\Helpers\Helpers::translate('Email
-                                    Address') }}</label>
+                                <label for="email" class="form-label">{{\App\Helpers\Helpers::translate('email_address')}}</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-envelope"></i></span>
                                     <input type="email" class="form-control" id="email"
@@ -71,12 +68,11 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="password" class="form-label">{{ \App\Helpers\Helpers::translate('New
-                                    Password') }}</label>
+                                <label for="password" class="form-label">{{\App\Helpers\Helpers::translate('new_password')}}</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-key"></i></span>
                                     <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                        id="password" name="password">
+                                        id="password" name="password" placeholder="{{\App\Helpers\Helpers::translate('leave_blank_to_keep_current')}}">
                                 </div>
                                 @error('password')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -84,8 +80,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="password_confirmation" class="form-label">{{
-                                    \App\Helpers\Helpers::translate('Confirm Password') }}</label>
+                                <label for="password_confirmation" class="form-label">{{\App\Helpers\Helpers::translate('confirm_password')}}</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i
                                             class="bi bi-check2-circle"></i></span>
@@ -96,11 +91,10 @@
 
                             <div class="col-12 mt-4 d-flex gap-2">
                                 <button type="submit" class="btn btn-primary px-4">
-                                    <i class="bi bi-save me-2"></i>{{ \App\Helpers\Helpers::translate('Update Profile')
-                                    }}
+                                    <i class="bi bi-save me-2"></i>{{\App\Helpers\Helpers::translate('update_profile')}}
                                 </button>
                                 <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-secondary px-4">
-                                    <i class="bi bi-x-circle me-2"></i>{{ \App\Helpers\Helpers::translate('Cancel') }}
+                                    <i class="bi bi-x-circle me-2"></i>{{\App\Helpers\Helpers::translate('cancel')}}
                                 </a>
                             </div>
                         </div>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', \App\Helpers\Helpers::translate('app.add_language'))
+@section('title', \App\Helpers\Helpers::translate('add_language'))
 
 @section('content')
 <div class="container-fluid">
@@ -10,7 +10,7 @@
                 <a href="{{ route('admin.languages.index') }}" class="btn btn-outline-secondary me-3">
                     <i class="bi bi-arrow-left"></i>
                 </a>
-                <h2 class="fw-bold mb-0">{{ \App\Helpers\Helpers::translate('app.add_language') }}</h2>
+                <h2 class="fw-bold mb-0">{{\App\Helpers\Helpers::translate('add_language')}}</h2>
             </div>
             
             <div class="card border-0 shadow-lg">
@@ -20,7 +20,7 @@
                         
                         <div class="row g-4">
                             <div class="col-md-6">
-                                <label for="name" class="form-label">{{ \App\Helpers\Helpers::translate('app.language_name') }}</label>
+                                <label for="name" class="form-label">{{\App\Helpers\Helpers::translate('language_name')}}</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-translate"></i></span>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror" 
@@ -32,7 +32,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="code" class="form-label">{{ \App\Helpers\Helpers::translate('app.language_code') }}</label>
+                                <label for="code" class="form-label">{{\App\Helpers\Helpers::translate('language_code')}}</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-code-slash"></i></span>
                                     <input type="text" class="form-control @error('code') is-invalid @enderror" 
@@ -45,7 +45,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="flag" class="form-label">{{ \App\Helpers\Helpers::translate('app.flag_image') }}</label>
+                                <label for="flag" class="form-label">{{\App\Helpers\Helpers::translate('flag_image')}}</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-flag"></i></span>
                                     <input type="file" class="form-control @error('flag') is-invalid @enderror" 
@@ -58,18 +58,18 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label">{{ \App\Helpers\Helpers::translate('app.direction') }}</label>
+                                <label class="form-label">{{\App\Helpers\Helpers::translate('direction')}}</label>
                                 <div class="d-flex gap-4 mt-2">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="direction" id="direction_ltr" value="ltr" checked>
                                         <label class="form-check-label" for="direction_ltr">
-                                            {{ \App\Helpers\Helpers::translate('app.ltr') }}
+                                            {{\App\Helpers\Helpers::translate('ltr')}}
                                         </label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="direction" id="direction_rtl" value="rtl">
                                         <label class="form-check-label" for="direction_rtl">
-                                            {{ \App\Helpers\Helpers::translate('app.rtl') }}
+                                            {{\App\Helpers\Helpers::translate('rtl')}}
                                         </label>
                                     </div>
                                 </div>
@@ -81,23 +81,23 @@
                             <div class="col-md-6">
                                 <div class="form-check form-switch mt-4">
                                     <input class="form-check-input" type="checkbox" id="status" name="status" checked>
-                                    <label class="form-check-label" for="status">{{ \App\Helpers\Helpers::translate('app.active') }}</label>
+                                    <label class="form-check-label" for="status">{{\App\Helpers\Helpers::translate('active')}}</label>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-check form-switch mt-4">
                                     <input class="form-check-input" type="checkbox" id="is_default" name="is_default">
-                                    <label class="form-check-label" for="is_default">{{ \App\Helpers\Helpers::translate('app.set_as_default') }}</label>
+                                    <label class="form-check-label" for="is_default">{{\App\Helpers\Helpers::translate('set_as_default')}}</label>
                                 </div>
                             </div>
 
                             <div class="col-12 mt-4 d-flex gap-2">
                                 <button type="submit" class="btn btn-primary px-4">
-                                    <i class="bi bi-save me-2"></i>{{ \App\Helpers\Helpers::translate('app.save') }}
+                                    <i class="bi bi-save me-2"></i>{{\App\Helpers\Helpers::translate('save')}}
                                 </button>
                                 <a href="{{ route('admin.languages.index') }}" class="btn btn-outline-secondary px-4">
-                                    <i class="bi bi-x-circle me-2"></i>{{ \App\Helpers\Helpers::translate('app.cancel') }}
+                                    <i class="bi bi-x-circle me-2"></i>{{\App\Helpers\Helpers::translate('cancel')}}
                                 </a>
                             </div>
                         </div>

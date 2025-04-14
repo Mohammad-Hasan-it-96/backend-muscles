@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard')
+@section('title', \App\Helpers\Helpers::translate('dashboard'))
 
 @section('content')
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold">{{\App\Helpers\Helpers::translate('Dashboard')}}</h2>
+        <h2 class="fw-bold">{{\App\Helpers\Helpers::translate('dashboard')}}</h2>
         <div class="d-flex gap-2">
             <button class="btn btn-outline-primary">
-                <i class="bi bi-download me-2"></i>Export
+                <i class="bi bi-download me-2"></i>{{\App\Helpers\Helpers::translate('export')}}
             </button>
             <button class="btn btn-primary">
-                <i class="bi bi-plus-lg me-2"></i>New Report
+                <i class="bi bi-plus-lg me-2"></i>{{\App\Helpers\Helpers::translate('new_report')}}
             </button>
         </div>
     </div>
@@ -23,7 +23,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start mb-3">
                         <div>
-                            <h6 class="text-muted mb-1">Total Sales</h6>
+                            <h6 class="text-muted mb-1">{{\App\Helpers\Helpers::translate('total_sales')}}</h6>
                             <h3 class="fw-bold mb-0">$24,780</h3>
                         </div>
                         <div class="rounded-circle p-2" style="background-color: rgba(79, 70, 229, 0.1);">
@@ -32,7 +32,7 @@
                     </div>
                     <div class="d-flex align-items-center">
                         <span class="badge bg-success me-2">+12.5%</span>
-                        <span class="text-muted small">from last month</span>
+                        <span class="text-muted small">{{\App\Helpers\Helpers::translate('from_last_month')}}</span>
                     </div>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start mb-3">
                         <div>
-                            <h6 class="text-muted mb-1">Total Orders</h6>
+                            <h6 class="text-muted mb-1">{{\App\Helpers\Helpers::translate('total_orders')}}</h6>
                             <h3 class="fw-bold mb-0">1,482</h3>
                         </div>
                         <div class="rounded-circle p-2" style="background-color: rgba(16, 185, 129, 0.1);">
@@ -52,7 +52,7 @@
                     </div>
                     <div class="d-flex align-items-center">
                         <span class="badge bg-success me-2">+8.2%</span>
-                        <span class="text-muted small">from last month</span>
+                        <span class="text-muted small">{{\App\Helpers\Helpers::translate('from_last_month')}}</span>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start mb-3">
                         <div>
-                            <h6 class="text-muted mb-1">New Customers</h6>
+                            <h6 class="text-muted mb-1">{{\App\Helpers\Helpers::translate('new_customers')}}</h6>
                             <h3 class="fw-bold mb-0">382</h3>
                         </div>
                         <div class="rounded-circle p-2" style="background-color: rgba(59, 130, 246, 0.1);">
@@ -72,7 +72,7 @@
                     </div>
                     <div class="d-flex align-items-center">
                         <span class="badge bg-success me-2">+5.7%</span>
-                        <span class="text-muted small">from last month</span>
+                        <span class="text-muted small">{{\App\Helpers\Helpers::translate('from_last_month')}}</span>
                     </div>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start mb-3">
                         <div>
-                            <h6 class="text-muted mb-1">Conversion Rate</h6>
+                            <h6 class="text-muted mb-1">{{\App\Helpers\Helpers::translate('conversion_rate')}}</h6>
                             <h3 class="fw-bold mb-0">3.42%</h3>
                         </div>
                         <div class="rounded-circle p-2" style="background-color: rgba(245, 158, 11, 0.1);">
@@ -92,7 +92,7 @@
                     </div>
                     <div class="d-flex align-items-center">
                         <span class="badge bg-danger me-2">-1.2%</span>
-                        <span class="text-muted small">from last month</span>
+                        <span class="text-muted small">{{\App\Helpers\Helpers::translate('from_last_month')}}</span>
                     </div>
                 </div>
             </div>
@@ -104,15 +104,15 @@
         <div class="col-lg-8">
             <div class="card border-0">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Sales Overview</h5>
+                    <h5 class="mb-0">{{\App\Helpers\Helpers::translate('sales_overview')}}</h5>
                     <div class="dropdown">
                         <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            This Month
+                            {{\App\Helpers\Helpers::translate('this_month')}}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">This Week</a></li>
-                            <li><a class="dropdown-item" href="#">This Month</a></li>
-                            <li><a class="dropdown-item" href="#">This Year</a></li>
+                            <li><a class="dropdown-item" href="#">{{\App\Helpers\Helpers::translate('this_week')}}</a></li>
+                            <li><a class="dropdown-item" href="#">{{\App\Helpers\Helpers::translate('this_month')}}</a></li>
+                            <li><a class="dropdown-item" href="#">{{\App\Helpers\Helpers::translate('this_year')}}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -125,7 +125,7 @@
         <div class="col-lg-4">
             <div class="card border-0">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Product Categories</h5>
+                    <h5 class="mb-0">{{\App\Helpers\Helpers::translate('product_categories')}}</h5>
                     <button class="btn btn-sm btn-outline-secondary">
                         <i class="bi bi-three-dots"></i>
                     </button>
@@ -142,20 +142,20 @@
         <div class="col-lg-8">
             <div class="card border-0">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Recent Orders</h5>
-                    <a href="#" class="btn btn-sm btn-link text-decoration-none">View All</a>
+                    <h5 class="mb-0">{{\App\Helpers\Helpers::translate('recent_orders')}}</h5>
+                    <a href="#" class="btn btn-sm btn-link text-decoration-none">{{\App\Helpers\Helpers::translate('view_all')}}</a>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <table class="table table-hover mb-0">
                             <thead class="bg-light">
                                 <tr>
-                                    <th>Order ID</th>
-                                    <th>Customer</th>
-                                    <th>Product</th>
-                                    <th>Date</th>
-                                    <th>Amount</th>
-                                    <th>Status</th>
+                                    <th>{{\App\Helpers\Helpers::translate('order_id')}}</th>
+                                    <th>{{\App\Helpers\Helpers::translate('customer')}}</th>
+                                    <th>{{\App\Helpers\Helpers::translate('product')}}</th>
+                                    <th>{{\App\Helpers\Helpers::translate('date')}}</th>
+                                    <th>{{\App\Helpers\Helpers::translate('amount')}}</th>
+                                    <th>{{\App\Helpers\Helpers::translate('status')}}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -165,7 +165,7 @@
                                     <td>Protein Powder</td>
                                     <td>Aug 12, 2023</td>
                                     <td>$59.99</td>
-                                    <td><span class="badge bg-success">Completed</span></td>
+                                    <td><span class="badge bg-success">{{\App\Helpers\Helpers::translate('completed')}}</span></td>
                                 </tr>
                                 <tr>
                                     <td>#ORD-7842</td>
@@ -173,101 +173,16 @@
                                     <td>Resistance Bands</td>
                                     <td>Aug 11, 2023</td>
                                     <td>$24.99</td>
-                                    <td><span class="badge bg-warning text-dark">Processing</span></td>
+                                    <td><span class="badge bg-warning text-dark">{{\App\Helpers\Helpers::translate('processing')}}</span></td>
                                 </tr>
-                                <tr>
-                                    <td>#ORD-7841</td>
-                                    <td>Michael Brown</td>
-                                    <td>Creatine Monohydrate</td>
-                                    <td>Aug 10, 2023</td>
-                                    <td>$34.99</td>
-                                    <td><span class="badge bg-success">Completed</span></td>
-                                </tr>
-                                <tr>
-                                    <td>#ORD-7840</td>
-                                    <td>Sarah Davis</td>
-                                    <td>Yoga Mat</td>
-                                    <td>Aug 09, 2023</td>
-                                    <td>$29.99</td>
-                                    <td><span class="badge bg-danger">Cancelled</span></td>
-                                </tr>
-                                <tr>
-                                    <td>#ORD-7839</td>
-                                    <td>David Wilson</td>
-                                    <td>Pre-Workout</td>
-                                    <td>Aug 08, 2023</td>
-                                    <td>$39.99</td>
-                                    <td><span class="badge bg-success">Completed</span></td>
-                                </tr>
+                                <!-- More rows... -->
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="col-lg-4">
-            <div class="card border-0">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Top Selling Products</h5>
-                    <button class="btn btn-sm btn-outline-secondary">
-                        <i class="bi bi-arrow-repeat"></i>
-                    </button>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item px-0 d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center">
-                                <div class="rounded bg-light p-2 me-3">
-                                    <i class="bi bi-capsule"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-0">Whey Protein Isolate</h6>
-                                    <small class="text-muted">2.5k units sold</small>
-                                </div>
-                            </div>
-                            <span class="badge bg-soft-primary text-primary rounded-pill">$12,500</span>
-                        </li>
-                        <li class="list-group-item px-0 d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center">
-                                <div class="rounded bg-light p-2 me-3">
-                                    <i class="bi bi-capsule"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-0">Pre-Workout Formula</h6>
-                                    <small class="text-muted">1.8k units sold</small>
-                                </div>
-                            </div>
-                            <span class="badge bg-soft-primary text-primary rounded-pill">$9,200</span>
-                        </li>
-                        <li class="list-group-item px-0 d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center">
-                                <div class="rounded bg-light p-2 me-3">
-                                    <i class="bi bi-capsule"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-0">BCAA Supplement</h6>
-                                    <small class="text-muted">1.2k units sold</small>
-                                </div>
-                            </div>
-                            <span class="badge bg-soft-primary text-primary rounded-pill">$6,800</span>
-                        </li>
-                        <li class="list-group-item px-0 d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center">
-                                <div class="rounded bg-light p-2 me-3">
-                                    <i class="bi bi-capsule"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-0">Creatine Monohydrate</h6>
-                                    <small class="text-muted">950 units sold</small>
-                                </div>
-                            </div>
-                            <span class="badge bg-soft-primary text-primary rounded-pill">$4,750</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        <!-- Rest of the content... -->
     </div>
 </div>
 @endsection

@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class Helpers
 {
@@ -34,42 +35,27 @@ class Helpers
      * @param string $key
      * @return string
      */
-    public static function translate($key)
+    public static function translate($key, $replace = [], $locale = null)
     {
-        $local = session('locale', self::default_lang());
-        App::setLocale($local);
+        // Get the current locale or use the provided one
+        $locale = $locale ?: App::getLocale();
 
-        try {
-            $langPath = resource_path('lang/' . $local . '/messages.php');
+        // First try to get from app.php translations
+        $translation = __("app.$key", $replace, $locale);
 
-            // Create the language file if it doesn't exist
-            if (!File::exists($langPath)) {
-                if (!File::exists(dirname($langPath))) {
-                    File::makeDirectory(dirname($langPath), 0755, true);
-                }
-                File::put($langPath, "<?php\n\nreturn [];\n");
+        // If the translation is the same as the key with 'app.' prefix, it means it wasn't found
+        if ($translation === "app.$key") {
+            // Try to get from other translation files without prefix
+            $translation = __($key, $replace, $locale);
+
+            // If still not found, return the key itself
+            if ($translation === $key) {
+                // For debugging - log missing translations
+                Log::warning("Translation missing for key: $key in locale: $locale");
+                return $key;
             }
-
-            $lang_array = include ($langPath);
-            $processed_key = ucfirst(str_replace('_', ' ', self::remove_invalid_charcaters($key)));
-
-            if (!is_array($lang_array)) {
-                $lang_array = [];
-            }
-
-            if (!array_key_exists($key, $lang_array)) {
-                $lang_array[$key] = $processed_key;
-                $str = "<?php\n\nreturn " . var_export($lang_array, true) . ";\n";
-                File::put($langPath, $str);
-                $result = $processed_key;
-            } else {
-                $result = $lang_array[$key];
-            }
-        } catch (\Exception $exception) {
-            // Fallback to the key itself
-            $result = $key;
         }
 
-        return $result;
+        return $translation;
     }
 }

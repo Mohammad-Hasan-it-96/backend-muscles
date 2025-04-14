@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name', 'Laravel') }} - @yield('title')</title>
-
+    
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -13,7 +13,6 @@
 
     <!-- RTL Bootstrap CSS (conditionally loaded) -->
     @if(App::isLocale('ar') || (session('site_direction') == 'rtl'))
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
     @endif
 
@@ -180,7 +179,7 @@
                 <div class="d-flex align-items-center justify-content-center rounded-circle" style="width: 40px; height: 40px; background-color: var(--primary); color: white;">
                     <i class="bi bi-shop"></i>
                 </div>
-                <span class="fw-bold" style="color: var(--text);">MuscleHub</span>
+                <span class="fw-bold" style="color: var(--text);">{{ \App\Helpers\Helpers::translate('app_name') }}</span>
             </a>
 
             <div class="d-flex align-items-center gap-3">
@@ -197,7 +196,7 @@
                         @if($currentLanguage && $currentLanguage->flag_path)
                             <img src="{{ asset('storage/' . $currentLanguage->flag_path) }}" alt="{{ $currentLanguage->name }}" class="current-language-flag">
                         @endif
-                        {{ $currentLanguage ? $currentLanguage->name : \App\Helpers\Helpers::translate('English') }}
+                        {{ $currentLanguage ? $currentLanguage->name : \App\Helpers\Helpers::translate('english') }}
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         @foreach($languages as $language)
@@ -230,11 +229,11 @@
                         <i class="bi bi-chevron-down small"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow" style="min-width: 200px; border-radius: 0.5rem; border: 1px solid var(--border-color);">
-                        <li><h6 class="dropdown-header">{{ \App\Helpers\Helpers::translate('Signed in as') }}</h6></li>
+                        <li><h6 class="dropdown-header">{{ \App\Helpers\Helpers::translate('signed_in_as') }}</h6></li>
                         <li><span class="dropdown-item-text fw-medium">{{ Auth::user()->email }}</span></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{ route('admin.profile.edit') }}"><i class="bi bi-person-gear me-2"></i>{{ \App\Helpers\Helpers::translate('Profile') }}</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form-nav').submit();"><i class="bi bi-box-arrow-right me-2"></i>{{ \App\Helpers\Helpers::translate('Logout') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.profile.edit') }}"><i class="bi bi-person-gear me-2"></i>{{ \App\Helpers\Helpers::translate('profile') }}</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form-nav').submit();"><i class="bi bi-box-arrow-right me-2"></i>{{ \App\Helpers\Helpers::translate('logout') }}</a></li>
                         <form id="logout-form-nav" action="{{ route('auth.logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
@@ -290,7 +289,7 @@
 
             <!-- Navigation -->
             <div class="nav-section">
-                <p class="sidebar-heading text-uppercase text-muted small fw-bold ms-3 mb-2">{{ \App\Helpers\Helpers::translate('Main') }}</p>
+                <p class="sidebar-heading text-uppercase text-muted small fw-bold ms-3 mb-2">{{ \App\Helpers\Helpers::translate('main') }}</p>
                 <div class="nav flex-column">
                     <a href="{{ route('admin.dashboard') }}" class="nav-link d-flex align-items-center py-3 px-3 rounded-3 mb-1 {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                         <i class="bi bi-speedometer2 me-3"></i>
@@ -303,7 +302,7 @@
                                 data-bs-toggle="collapse" data-bs-target="#productsCollapse" aria-expanded="{{ request()->routeIs('admin.products.*') ? 'true' : 'false' }}">
                             <div class="d-flex align-items-center">
                                 <i class="bi bi-box-seam me-3" style="{{ request()->routeIs('admin.products.*') ? 'color: #ffffff !important;' : '' }}"></i>
-                                <span style="{{ request()->routeIs('admin.products.*') ? 'color: #ffffff !important;' : '' }}">{{ \App\Helpers\Helpers::translate('Products') }}</span>
+                                <span style="{{ request()->routeIs('admin.products.*') ? 'color: #ffffff !important;' : '' }}">{{ \App\Helpers\Helpers::translate('products') }}</span>
                             </div>
                             <i class="bi {{ request()->routeIs('admin.products.*') ? 'bi-chevron-down' : 'bi-chevron-right' }}" style="{{ request()->routeIs('admin.products.*') ? 'color: #ffffff !important;' : '' }}"></i>
                         </button>
@@ -311,16 +310,16 @@
                             <div class="nav flex-column ms-4 mt-1">
                                 <a href="{{ route('admin.products.index') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->routeIs('admin.products.index') ? 'active' : '' }}">
                                     <i class="bi bi-list me-2"></i>
-                                    <span>{{ \App\Helpers\Helpers::translate('List') }}</span>
+                                    <span>{{ \App\Helpers\Helpers::translate('list') }}</span>
                                 </a>
                                 @if(Auth::user()->role === 'admin' || Auth::user()->role === 'moderator')
                                 <a href="{{ route('admin.products.create') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->routeIs('admin.products.create') ? 'active' : '' }}">
                                     <i class="bi bi-plus-circle me-2"></i>
-                                    <span>{{ \App\Helpers\Helpers::translate('Add New') }}</span>
+                                    <span>{{ \App\Helpers\Helpers::translate('add_new') }}</span>
                                 </a>
                                 <a href="{{ route('admin.products.import') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->routeIs('admin.products.import') ? 'active' : '' }}">
                                     <i class="bi bi-file-earmark-excel me-2"></i>
-                                    <span>{{ \App\Helpers\Helpers::translate('Import Products') }}</span>
+                                    <span>{{ \App\Helpers\Helpers::translate('import_products') }}</span>
                                 </a>
                                 @endif
                             </div>
@@ -334,7 +333,7 @@
                                 data-bs-toggle="collapse" data-bs-target="#usersCollapse" aria-expanded="{{ request()->routeIs('admin.users.*') ? 'true' : 'false' }}">
                             <div class="d-flex align-items-center">
                                 <i class="bi bi-people me-3" style="{{ request()->routeIs('admin.users.*') ? 'color: #ffffff !important;' : '' }}"></i>
-                                <span style="{{ request()->routeIs('admin.users.*') ? 'color: #ffffff !important;' : '' }}">{{ \App\Helpers\Helpers::translate('Users') }}</span>
+                                <span style="{{ request()->routeIs('admin.users.*') ? 'color: #ffffff !important;' : '' }}">{{ \App\Helpers\Helpers::translate('users') }}</span>
                             </div>
                             <i class="bi {{ request()->routeIs('admin.users.*') ? 'bi-chevron-down' : 'bi-chevron-right' }}" style="{{ request()->routeIs('admin.users.*') ? 'color: #ffffff !important;' : '' }}"></i>
                         </button>
@@ -342,11 +341,11 @@
                             <div class="nav flex-column ms-4 mt-1">
                                 <a href="{{ route('admin.users.index') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->routeIs('admin.users.index') ? 'active' : '' }}">
                                     <i class="bi bi-list me-2"></i>
-                                    <span>{{ \App\Helpers\Helpers::translate('List') }}</span>
+                                    <span>{{ \App\Helpers\Helpers::translate('list') }}</span>
                                 </a>
                                 <a href="{{ route('admin.users.create') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->routeIs('admin.users.create') ? 'active' : '' }}">
                                     <i class="bi bi-plus-circle me-2"></i>
-                                    <span>{{ \App\Helpers\Helpers::translate('Add New') }}</span>
+                                    <span>{{ \App\Helpers\Helpers::translate('add_new') }}</span>
                                 </a>
                             </div>
                         </div>
@@ -359,7 +358,7 @@
                                 data-bs-toggle="collapse" data-bs-target="#languagesCollapse" aria-expanded="{{ request()->routeIs('admin.languages.*') ? 'true' : 'false' }}">
                             <div class="d-flex align-items-center">
                                 <i class="bi bi-translate me-3" style="{{ request()->routeIs('admin.languages.*') ? 'color: #ffffff !important;' : '' }}"></i>
-                                <span style="{{ request()->routeIs('admin.languages.*') ? 'color: #ffffff !important;' : '' }}">{{ \App\Helpers\Helpers::translate('Languages') }}</span>
+                                <span style="{{ request()->routeIs('admin.languages.*') ? 'color: #ffffff !important;' : '' }}">{{ \App\Helpers\Helpers::translate('languages') }}</span>
                             </div>
                             <i class="bi {{ request()->routeIs('admin.languages.*') ? 'bi-chevron-down' : 'bi-chevron-right' }}" style="{{ request()->routeIs('admin.languages.*') ? 'color: #ffffff !important;' : '' }}"></i>
                         </button>
@@ -367,12 +366,12 @@
                             <div class="nav flex-column ms-4 mt-1">
                                 <a href="{{ route('admin.languages.index') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->routeIs('admin.languages.index') ? 'active' : '' }}">
                                     <i class="bi bi-list me-2"></i>
-                                    <span>{{ \App\Helpers\Helpers::translate('List') }}</span>
+                                    <span>{{ \App\Helpers\Helpers::translate('list') }}</span>
                                 </a>
                                 @if(Auth::user()->role === 'admin' || Auth::user()->role === 'moderator')
                                 <a href="{{ route('admin.languages.create') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->routeIs('admin.languages.create') ? 'active' : '' }}">
                                     <i class="bi bi-plus-circle me-2"></i>
-                                    <span>{{ \App\Helpers\Helpers::translate('Add New') }}</span>
+                                    <span>{{ \App\Helpers\Helpers::translate('add_new') }}</span>
                                 </a>
                                 @endif
                             </div>
@@ -383,16 +382,16 @@
 
             <!-- Account Section -->
             <div class="nav-section mt-auto">
-                <p class="sidebar-heading text-uppercase text-muted small fw-bold ms-3 mb-2">{{ \App\Helpers\Helpers::translate('Account') }}</p>
+                <p class="sidebar-heading text-uppercase text-muted small fw-bold ms-3 mb-2">{{ \App\Helpers\Helpers::translate('account') }}</p>
                 <div class="nav flex-column">
                     <a href="{{ route('admin.profile.edit') }}" class="nav-link d-flex align-items-center py-3 px-3 rounded-3 mb-1 {{ request()->routeIs('admin.profile.*') ? 'active' : '' }}">
                         <i class="bi bi-person-gear me-3"></i>
-                        <span>{{ \App\Helpers\Helpers::translate('Settings') }}</span>
+                        <span>{{ \App\Helpers\Helpers::translate('settings') }}</span>
                     </a>
                     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                        class="nav-link d-flex align-items-center py-3 px-3 rounded-3 mb-1 text-danger">
                         <i class="bi bi-box-arrow-right me-3"></i>
-                        <span>{{ \App\Helpers\Helpers::translate('Logout') }}</span>
+                        <span>{{ \App\Helpers\Helpers::translate('logout') }}</span>
                     </a>
                     <form id="logout-form" action="{{ route('auth.logout') }}" method="POST" class="d-none">
                         @csrf

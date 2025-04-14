@@ -1,47 +1,47 @@
 @extends('layouts.app')
 
-@section('title', 'Manage Products')
+@section('title', \App\Helpers\Helpers::translate('manage_products'))
 
 @section('content')
 <div class="container-fluid">
     <div class="d-flex justify-content-between mb-4">
-        <h3>Product Management</h3>
+        <h3>{{\App\Helpers\Helpers::translate('product_management')}}</h3>
         <div>
             <a href="{{ route('admin.products.create') }}" class="btn btn-primary me-2">
-                <i class="bi bi-plus-lg me-2"></i>Add New Product
+                <i class="bi bi-plus-lg me-2"></i>{{\App\Helpers\Helpers::translate('add_new_product')}}
             </a>
             <div class="btn-group">
                 <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-file-excel me-1"></i> Excel
+                    <i class="bi bi-file-excel me-1"></i> {{\App\Helpers\Helpers::translate('excel')}}
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li class="dropdown-header">Export</li>
+                    <li class="dropdown-header">{{\App\Helpers\Helpers::translate('export')}}</li>
                     <li>
                         <a class="dropdown-item" href="{{ route('admin.products.export') }}">
                             <i class="bi bi-file-earmark-excel me-2"></i> 
                             @if(Auth::user()->role === 'admin')
-                                Export All Products
+                                {{\App\Helpers\Helpers::translate('export_all_products')}}
                             @else
-                                Export Your Products
+                                {{\App\Helpers\Helpers::translate('export_your_products')}}
                             @endif
                         </a>
                     </li>
                     @if(Auth::user()->role === 'admin')
                         <li><hr class="dropdown-divider"></li>
-                        <li class="dropdown-header">Export by User</li>
+                        <li class="dropdown-header">{{\App\Helpers\Helpers::translate('export_by_user')}}</li>
                         @foreach($users as $user)
                             <li>
                                 <a class="dropdown-item" href="{{ route('admin.products.export', ['user_id' => $user->id]) }}">
-                                    <i class="bi bi-person me-2"></i> {{ $user->name }}'s Products
+                                    <i class="bi bi-person me-2"></i> {{ $user->name }}'s {{\App\Helpers\Helpers::translate('products')}}
                                 </a>
                             </li>
                         @endforeach
                     @endif
                     <li><hr class="dropdown-divider"></li>
-                    <li class="dropdown-header">Import</li>
+                    <li class="dropdown-header">{{\App\Helpers\Helpers::translate('import')}}</li>
                     <li>
                         <a class="dropdown-item" href="{{ route('admin.products.import') }}">
-                            <i class="bi bi-file-earmark-arrow-up me-2"></i> Import Products
+                            <i class="bi bi-file-earmark-arrow-up me-2"></i> {{\App\Helpers\Helpers::translate('import_products')}}
                         </a>
                     </li>
                 </ul>
@@ -58,27 +58,27 @@
 
     <div class="card shadow mb-4">
         <div class="card-header bg-light py-3">
-            <h6 class="m-0 font-weight-bold">Filter Options</h6>
+            <h6 class="m-0 font-weight-bold">{{\App\Helpers\Helpers::translate('filter_options')}}</h6>
         </div>
         <div class="card-body">
             <form action="{{ route('admin.products.index') }}" method="GET" class="row g-3">
                 <div class="col-md-4">
-                    <label for="user_filter" class="form-label">Filter by User</label>
+                    <label for="user_filter" class="form-label">{{\App\Helpers\Helpers::translate('filter_by_user')}}</label>
                     <select name="user_id" id="user_filter" class="form-select">
-                        <option value="">All Users</option>
+                        <option value="">{{\App\Helpers\Helpers::translate('all_users')}}</option>
                         @foreach($users as $user)
                             <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
-                                {{ $user->name }} ({{ $user->role }})
+                                {{ $user->name }} ({{\App\Helpers\Helpers::translate($user->role)}})
                             </option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-md-12 mt-3">
                     <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-filter me-1"></i> Apply Filters
+                        <i class="bi bi-filter me-1"></i> {{\App\Helpers\Helpers::translate('apply_filters')}}
                     </button>
                     <a href="{{ route('admin.products.index') }}" class="btn btn-outline-secondary ms-2">
-                        <i class="bi bi-x-circle me-1"></i> Clear Filters
+                        <i class="bi bi-x-circle me-1"></i> {{\App\Helpers\Helpers::translate('clear_filters')}}
                     </a>
                 </div>
             </form>
@@ -92,12 +92,12 @@
                     <thead class="bg-primary text-white">
                         <tr>
                             <th class="ps-4">#</th>
-                            <th>Product</th>
-                            <th>Description</th>
-                            <th>Price</th>
-                            <th>Stock</th>
-                            <th>Created By</th>
-                            <th class="text-end pe-4">Actions</th>
+                            <th>{{\App\Helpers\Helpers::translate('product')}}</th>
+                            <th>{{\App\Helpers\Helpers::translate('description')}}</th>
+                            <th>{{\App\Helpers\Helpers::translate('price')}}</th>
+                            <th>{{\App\Helpers\Helpers::translate('stock')}}</th>
+                            <th>{{\App\Helpers\Helpers::translate('created_by')}}</th>
+                            <th class="text-end pe-4">{{\App\Helpers\Helpers::translate('actions')}}</th>
                         </tr>
                     </thead>
                     <tbody class="border-top-0">
@@ -116,7 +116,7 @@
                             <td class="text-success fw-medium">${{ number_format($product->price, 2) }}</td>
                             <td>
                                 <span class="badge bg-{{ $product->quantity > 10 ? 'success' : 'warning' }}">
-                                    {{ $product->quantity }} in stock
+                                    {{ $product->quantity }} {{\App\Helpers\Helpers::translate('in_stock')}}
                                 </span>
                             </td>
                             <td>
@@ -125,8 +125,8 @@
                                         {{ substr($product->user->name ?? 'Unknown', 0, 1) }}
                                     </div>
                                     <div>
-                                        <div class="fw-medium">{{ $product->user->name ?? 'Unknown' }}</div>
-                                        <small class="text-muted">{{ $product->user->role ?? '' }}</small>
+                                        <div class="fw-medium">{{ $product->user->name ?? \App\Helpers\Helpers::translate('unknown') }}</div>
+                                        <small class="text-muted">{{ $product->user->role ? \App\Helpers\Helpers::translate($product->user->role) : '' }}</small>
                                     </div>
                                 </div>
                             </td>
@@ -150,7 +150,7 @@
                         <tr>
                             <td colspan="7" class="text-center py-5 text-muted">
                                 <i class="bi bi-database-exclamation fs-1"></i>
-                                <p class="mt-3">No products found in database</p>
+                                <p class="mt-3">{{\App\Helpers\Helpers::translate('no_products_found')}}</p>
                             </tr>
                             @endforelse
                         </tbody>

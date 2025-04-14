@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', \App\Helpers\Helpers::translate('Edit User'))
+@section('title', \App\Helpers\Helpers::translate('edit_user'))
 
 @section('content')
 <div class="container-fluid">
@@ -10,7 +10,7 @@
                 <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary me-3">
                     <i class="bi bi-arrow-left"></i>
                 </a>
-                <h2 class="fw-bold mb-0">{{ \App\Helpers\Helpers::translate('Edit User') }}</h2>
+                <h2 class="fw-bold mb-0">{{\App\Helpers\Helpers::translate('edit_user')}}</h2>
             </div>
             
             <div class="card border-0 shadow-lg">
@@ -40,7 +40,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="name" class="form-label">Full Name</label>
+                                <label for="name" class="form-label">{{\App\Helpers\Helpers::translate('full_name')}}</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-person"></i></span>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror" 
@@ -52,7 +52,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="email" class="form-label">Email Address</label>
+                                <label for="email" class="form-label">{{\App\Helpers\Helpers::translate('email_address')}}</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-envelope"></i></span>
                                     <input type="email" class="form-control @error('email') is-invalid @enderror" 
@@ -64,13 +64,13 @@
                             </div>
 
                             <div class="col-md-12">
-                                <label for="role" class="form-label">Role</label>
+                                <label for="role" class="form-label">{{\App\Helpers\Helpers::translate('role')}}</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-shield"></i></span>
                                     <select class="form-select @error('role') is-invalid @enderror" id="role" name="role" required>
-                                        <option value="user" {{ (old('role', $user->role) === 'user') ? 'selected' : '' }}>User</option>
-                                        <option value="moderator" {{ (old('role', $user->role) === 'moderator') ? 'selected' : '' }}>Moderator</option>
-                                        <option value="admin" {{ (old('role', $user->role) === 'admin') ? 'selected' : '' }}>Admin</option>
+                                        <option value="user" {{ (old('role', $user->role) === 'user') ? 'selected' : '' }}>{{\App\Helpers\Helpers::translate('user')}}</option>
+                                        <option value="moderator" {{ (old('role', $user->role) === 'moderator') ? 'selected' : '' }}>{{\App\Helpers\Helpers::translate('moderator')}}</option>
+                                        <option value="admin" {{ (old('role', $user->role) === 'admin') ? 'selected' : '' }}>{{\App\Helpers\Helpers::translate('admin')}}</option>
                                     </select>
                                 </div>
                                 @error('role')
@@ -79,11 +79,11 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="password" class="form-label">New Password</label>
+                                <label for="password" class="form-label">{{\App\Helpers\Helpers::translate('new_password')}}</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-key"></i></span>
                                     <input type="password" class="form-control @error('password') is-invalid @enderror" 
-                                           id="password" name="password" placeholder="Leave blank to keep current password">
+                                           id="password" name="password" placeholder="{{\App\Helpers\Helpers::translate('leave_blank_to_keep_current')}}">
                                 </div>
                                 @error('password')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -91,7 +91,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="password_confirmation" class="form-label">Confirm Password</label>
+                                <label for="password_confirmation" class="form-label">{{\App\Helpers\Helpers::translate('confirm_password')}}</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-transparent"><i class="bi bi-shield-lock"></i></span>
                                     <input type="password" class="form-control" 
@@ -101,10 +101,10 @@
 
                             <div class="col-12 mt-4 d-flex gap-2">
                                 <button type="submit" class="btn btn-primary px-4">
-                                    <i class="bi bi-save me-2"></i>{{ \App\Helpers\Helpers::translate('app.save') }}
+                                    <i class="bi bi-save me-2"></i>{{\App\Helpers\Helpers::translate('save')}}
                                 </button>
                                 <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary px-4">
-                                    <i class="bi bi-x-circle me-2"></i>{{ \App\Helpers\Helpers::translate('app.cancel') }}
+                                    <i class="bi bi-x-circle me-2"></i>{{\App\Helpers\Helpers::translate('cancel')}}
                                 </a>
                             </div>
                         </div>
