@@ -318,6 +318,10 @@
                                     <i class="bi bi-plus-circle me-2"></i>
                                     <span>{{ \App\Helpers\Helpers::translate('Add New') }}</span>
                                 </a>
+                                <a href="{{ route('admin.products.import') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->routeIs('admin.products.import') ? 'active' : '' }}">
+                                    <i class="bi bi-file-earmark-excel me-2"></i>
+                                    <span>{{ \App\Helpers\Helpers::translate('Import Products') }}</span>
+                                </a>
                                 @endif
                             </div>
                         </div>

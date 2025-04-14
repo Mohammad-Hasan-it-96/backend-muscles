@@ -35,4 +35,6 @@ return array (
   'app.cancel' => 'App.cancel',
   'Moderator' => 'Moderator',
   'app.delete_confirmation' => 'App.delete confirmation',
+  'app.save' => 'App.save',
+  'Edit User' => 'Edit User',
 );

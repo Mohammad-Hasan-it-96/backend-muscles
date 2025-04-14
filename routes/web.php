@@ -33,9 +33,16 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'admin.'], fu
     Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
     // Products routes
-    Route::group(['prefix' => 'products', 'as' => 'products.'], function () {
+    // Inside the products group
+    Route::group(['middleware' => 'auth', 'prefix' => 'products', 'as' => 'products.'], function () {
         // List route - accessible by all authenticated users
         Route::get('', [ProductController::class, 'index'])->name('index');
+        Route::get('export', [ProductController::class, 'export'])->name('export');
+
+        // Import routes
+        Route::get('import', [ProductController::class, 'import'])->name('import');
+        Route::get('template', [ProductController::class, 'downloadTemplate'])->name('template');
+        Route::post('import', [ProductController::class, 'processImport'])->name('import.process');
 
         // Create, edit, update, delete - only for admin and moderator
         Route::middleware(['moderator'])->group(function () {

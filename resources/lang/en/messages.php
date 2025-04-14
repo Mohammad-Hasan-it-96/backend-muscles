@@ -23,4 +23,7 @@ return array (
   'app.are_you_sure' => 'App.are you sure',
   'app.save' => 'App.save',
   'Moderator' => 'Moderator',
+  'User' => 'User',
+  'Login' => 'Login',
+  'Import Products' => 'Import Products',
 );

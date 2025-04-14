@@ -7,15 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    use HasFactory;
+
     protected $fillable = [
         'name',
         'details',
         'price',
         'quantity',
+        'user_id',
+        // Add other fields as needed
     ];
+
+    /**
+     * Get the user that owns the product.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
