@@ -85,4 +85,13 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::post('destroy/{id}', [LanguageController::class, 'destroy'])->name('destroy');
         });
     });
+
+    // System Configs Routes
+    Route::prefix('configs')->name('configs.')->middleware(['auth', 'admin'])->group(function () {
+        Route::get('/', [App\Http\Controllers\Admin\ConfigController::class, 'index'])->name('index');
+        Route::get('/group/{group}', [App\Http\Controllers\Admin\ConfigController::class, 'group'])->name('group');
+        Route::put('/update', [App\Http\Controllers\Admin\ConfigController::class, 'update'])->name('update');
+        Route::post('/store', [App\Http\Controllers\Admin\ConfigController::class, 'store'])->name('store');
+        Route::delete('/{id}', [App\Http\Controllers\Admin\ConfigController::class, 'destroy'])->name('destroy');
+    });
 });

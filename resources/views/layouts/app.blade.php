@@ -377,6 +377,64 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- System Configs Dropdown - Only for Admins -->
+                    @if(Auth::user()->role === 'admin')
+                    <div class="sidebar-item mb-1">
+                        <button class="nav-link d-flex align-items-center justify-content-between w-100 py-3 px-3 rounded-3 border-0 bg-transparent {{ request()->routeIs('admin.configs.*') ? 'active' : '' }}" 
+                                data-bs-toggle="collapse" data-bs-target="#configsCollapse" aria-expanded="{{ request()->routeIs('admin.configs.*') ? 'true' : 'false' }}">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-gear me-3" style="{{ request()->routeIs('admin.configs.*') ? 'color: #ffffff !important;' : '' }}"></i>
+                                <span style="{{ request()->routeIs('admin.configs.*') ? 'color: #ffffff !important;' : '' }}">{{ \App\Helpers\Helpers::translate('system_configs') }}</span>
+                            </div>
+                            <i class="bi {{ request()->routeIs('admin.configs.*') ? 'bi-chevron-down' : 'bi-chevron-right' }}" style="{{ request()->routeIs('admin.configs.*') ? 'color: #ffffff !important;' : '' }}"></i>
+                        </button>
+                        <div class="collapse {{ request()->routeIs('admin.configs.*') ? 'show' : '' }}" id="configsCollapse">
+                            <div class="nav flex-column ms-4 mt-1">
+                                <a href="{{ route('admin.configs.index') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->routeIs('admin.configs.index') ? 'active' : '' }}">
+                                    <i class="bi bi-list me-2"></i>
+                                    <span>{{ \App\Helpers\Helpers::translate('all_configs') }}</span>
+                                </a>
+                                <a href="{{ route('admin.configs.group', 'general') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->is('admin/configs/group/general') ? 'active' : '' }}">
+                                    <i class="bi bi-sliders me-2"></i>
+                                    <span>{{ \App\Helpers\Helpers::translate('general') }}</span>
+                                </a>
+                                <a href="{{ route('admin.configs.group', 'email') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->is('admin/configs/group/email') ? 'active' : '' }}">
+                                    <i class="bi bi-envelope me-2"></i>
+                                    <span>{{ \App\Helpers\Helpers::translate('email') }}</span>
+                                </a>
+                                <a href="{{ route('admin.configs.group', 'social') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->is('admin/configs/group/social') ? 'active' : '' }}">
+                                    <i class="bi bi-share me-2"></i>
+                                    <span>{{ \App\Helpers\Helpers::translate('social') }}</span>
+                                </a>
+                                <a href="{{ route('admin.configs.group', 'support') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->is('admin/configs/group/support') ? 'active' : '' }}">
+                                    <i class="bi bi-headset me-2"></i>
+                                    <span>{{ \App\Helpers\Helpers::translate('support') }}</span>
+                                </a>
+                                <a href="{{ route('admin.configs.group', 'ui') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->is('admin/configs/group/ui') ? 'active' : '' }}">
+                                    <i class="bi bi-palette me-2"></i>
+                                    <span>{{ \App\Helpers\Helpers::translate('ui') }}</span>
+                                </a>
+                                <a href="{{ route('admin.configs.group', 'analytics') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->is('admin/configs/group/analytics') ? 'active' : '' }}">
+                                    <i class="bi bi-graph-up me-2"></i>
+                                    <span>{{ \App\Helpers\Helpers::translate('analytics') }}</span>
+                                </a>
+                                <a href="{{ route('admin.configs.group', 'api') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->is('admin/configs/group/api') ? 'active' : '' }}">
+                                    <i class="bi bi-braces me-2"></i>
+                                    <span>{{ \App\Helpers\Helpers::translate('api') }}</span>
+                                </a>
+                                <a href="{{ route('admin.configs.group', 'security') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->is('admin/configs/group/security') ? 'active' : '' }}">
+                                    <i class="bi bi-shield-lock me-2"></i>
+                                    <span>{{ \App\Helpers\Helpers::translate('security') }}</span>
+                                </a>
+                                <a href="{{ route('admin.configs.group', 'ecommerce') }}" class="nav-link py-2 px-3 rounded-3 {{ request()->is('admin/configs/group/ecommerce') ? 'active' : '' }}">
+                                    <i class="bi bi-cart me-2"></i>
+                                    <span>{{ \App\Helpers\Helpers::translate('ecommerce') }}</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </div>
 
